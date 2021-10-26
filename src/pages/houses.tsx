@@ -101,10 +101,10 @@ export default function Houses(props: any) {
         <Row xs={1}>
           <Card.Header>
             <Row xs={1}>
-              <Col xs={6} className='vertical-align'>
+              <Col xs={3} className='vertical-align'>
                 All houses
               </Col>
-              <Col xs={6} className='text-end'>
+              <Col xs={9} className='text-end'>
                 <ButtonGroup className='me-3'>
                   <Button size='sm' onClick={handleShowCreateHouse}>
                     Create a house

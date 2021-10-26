@@ -337,7 +337,7 @@ export const MintForm = (props: any) => {
                     </Button>
                   </Container>
                 </Row> }
-              <Row className='mt-2'>
+              <Row className='mt-3'>
                 { !capturingImage && !props.imageHash &&
                   <Form className='fill-height'>
                     <Row className='mb-3'>
@@ -392,7 +392,7 @@ export const MintForm = (props: any) => {
                     </Button>
                   </Container>
                 </Row> }
-              <Row className='mt-2'>
+              <Row className='mt-3'>
                 { !capturingMedia && !props.mediaHash &&
                   <Form className='fill-height'>
                     <Row className='mb-3'>
