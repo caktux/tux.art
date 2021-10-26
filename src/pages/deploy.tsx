@@ -14,6 +14,7 @@ import { ethers, Signer } from 'ethers'
 import { TuxFull } from '../abi/TuxFull'
 import { TuxERC20Full } from '../abi/TuxERC20Full'
 import { AuctionsFull } from '../abi/AuctionsFull'
+// import { AUCTIONS, TUX } from '../constants/contracts'
 
 
 export default function Deploy(props: any) {
@@ -106,6 +107,18 @@ export default function Deploy(props: any) {
           return
         }
 
+        const txMinter = await tuxERC20Contract.setMinter(auctionsContract.address).catch((e: any) => {
+          console.warn(`In tuxERC20Contract.setMinter`, e.data ? e.data.message : e.message)
+          if (e.data && e.data.message)
+            setError(e.data.message)
+          else
+            setError(e.message)
+          setPending(false)
+          return
+        })
+        await txMinter.wait()
+
+        // const contract = new ethers.Contract(AUCTIONS, AuctionsFull.abi, signer as Signer)
         const contract = new ethers.Contract(auctionsContract.address, AuctionsFull.abi, signer as Signer)
         const tx = await contract.createHouse(
           name, // Name
@@ -129,6 +142,7 @@ export default function Deploy(props: any) {
           setSuccess(name)
         }
 
+        // const txRegister = await contract.registerTokenContract(TUX).catch((e: any) => {
         const txRegister = await contract.registerTokenContract(tuxContract.address).catch((e: any) => {
           console.warn(`In contract.registerTokenContract`, e.data ? e.data.message : e.message)
           if (e.data && e.data.message)
@@ -167,7 +181,8 @@ export default function Deploy(props: any) {
     <Container>
       <Alert variant='secondary'>
         This will deploy the auctions contract as well as the Tux minting contract,
-        the TUX token contract (ERC20), add a house of the same name, and
+        the TUX token contract (ERC20), set the ERC20 minting address to the
+        auctions contract, add a house of the same name, and
         register the minting contract.
       </Alert>
 
