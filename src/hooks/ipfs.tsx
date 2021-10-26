@@ -107,8 +107,6 @@ export function UseIPFSProvider({ children }: { children: ReactNode } ) {
     throw new Error('<UseIPFSProvider /> has already been declared.')
   }
 
-  // const { ipfs, ipfsHost, peerCount } = useIPFS()
-
   const [ ipfs, setIpfs] = useState<IPFS | null>(null)
   const [ ipfsHost, setIpfsHost] = useState('https://dweb.link')
   const [ peerCount, setPeerCount ] = useState(0)

@@ -51,9 +51,9 @@ export const CreateCollectionForm = (props: any) => {
           })
           await collectionContract.deployed()
         } catch (e: any) {
-          console.warn(`In collection.deploy`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In collection.deploy`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
           setPending(false)
@@ -64,9 +64,9 @@ export const CreateCollectionForm = (props: any) => {
         const contract = new ethers.Contract(AUCTIONS, Auctions, signer as Signer)
 
         const tx = await contract.registerTokenContract(collectionContract.address).catch((e: any) => {
-          console.warn(`In registerTokenContract`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In registerTokenContract`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
         })

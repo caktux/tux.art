@@ -30,6 +30,7 @@ import HouseQueue from './pages/queue'
 import Contract from './pages/contract'
 import FullNFT from './pages/nft'
 import Deploy from './pages/deploy'
+import Payouts from './pages/payouts'
 
 
 function App() {
@@ -195,6 +196,9 @@ function App() {
           </Route>
           <Route exact path='/deploy'>
             <Deploy />
+          </Route>
+          <Route exact path='/payouts'>
+            <Payouts />
           </Route>
         </Switch>
       </div>

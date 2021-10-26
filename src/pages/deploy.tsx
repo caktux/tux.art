@@ -64,9 +64,9 @@ export default function Deploy(props: any) {
           })
           await tuxContract.deployed()
         } catch (e: any) {
-          console.warn(`In tux.deploy`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In tux.deploy`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
           setPending(false)
@@ -81,9 +81,9 @@ export default function Deploy(props: any) {
           })
           await tuxERC20Contract.deployed()
         } catch (e: any) {
-          console.warn(`In tuxERC20.deploy`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In tuxERC20.deploy`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
           setPending(false)
@@ -98,9 +98,9 @@ export default function Deploy(props: any) {
           })
           await auctionsContract.deployed()
         } catch (e: any) {
-          console.warn(`In auctions.deploy`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In auctions.deploy`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
           setPending(false)
@@ -108,9 +108,9 @@ export default function Deploy(props: any) {
         }
 
         const txMinter = await tuxERC20Contract.setMinter(auctionsContract.address).catch((e: any) => {
-          console.warn(`In tuxERC20Contract.setMinter`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In tuxERC20Contract.setMinter`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
           setPending(false)
@@ -127,9 +127,9 @@ export default function Deploy(props: any) {
           true, // Pre-approved
           '' // Metadata hash
         ).catch((e: any) => {
-          console.warn(`In contract.createHouse`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In contract.createHouse`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
           setPending(false)
@@ -144,9 +144,9 @@ export default function Deploy(props: any) {
 
         // const txRegister = await contract.registerTokenContract(TUX).catch((e: any) => {
         const txRegister = await contract.registerTokenContract(tuxContract.address).catch((e: any) => {
-          console.warn(`In contract.registerTokenContract`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In contract.registerTokenContract`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
           setPending(false)

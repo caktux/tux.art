@@ -44,9 +44,9 @@ export const UpdateReservePriceForm = (props: any) => {
           props.auction.id,
           ethers.utils.parseUnits(event.target[0].value, 'ether')
         ).catch((e: any) => {
-          console.warn(`In setAuctionReservePrice`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In setAuctionReservePrice`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
         })

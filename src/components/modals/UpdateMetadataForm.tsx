@@ -43,9 +43,9 @@ export const UpdateMetadataForm = (props: any) => {
           props.houseId,
           event.target[0].value
         ).catch((e: any) => {
-          console.warn(`In updateMetadata`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In updateMetadata`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
         })

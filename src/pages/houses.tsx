@@ -49,19 +49,21 @@ export default function Houses(props: any) {
   }
 
   const handleBack = () => {
-    setLoaded(false)
     setOffset((offset) => { return offset - props.limit })
     setForwardDisabled(true)
     setBackDisabled(true)
     setFetched(false)
+    setLoaded(false)
+    setHouses([])
   }
 
   const handleForward = () => {
-    setLoaded(false)
     setOffset((offset) => { return offset + props.limit })
     setForwardDisabled(true)
     setBackDisabled(true)
     setFetched(false)
+    setLoaded(false)
+    setHouses([])
   }
 
   useEffect(() => {

@@ -27,9 +27,9 @@ export const ApproveModal = (props: any) => {
     const contract = new ethers.Contract(AUCTIONS, Auctions, signer as Signer)
 
     const tx = await contract.setAuctionApproval(props.auction.id, approved).catch((e: any) => {
-      console.warn(`In setAuctionApproval`, e.data ? e.data.message : e.message)
-      if (e.data && e.data.message)
-        setError(e.data.message.slice(0, e.data.message.length - 1).slice(79, e.data.message.length))
+      console.warn(`In setAuctionApproval`, e.error ? e.error.message : e.message)
+      if (e.error && e.error.message)
+        setError(e.error.message.replace('execution reverted: ', ''))
       else
         setError(e.message)
     })

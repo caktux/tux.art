@@ -27,9 +27,9 @@ export const CancelOfferModal = (props: any) => {
     const contract = new ethers.Contract(AUCTIONS, Auctions, signer as Signer)
 
     const tx = await contract.cancelOffer(props.offer.id).catch((e: any) => {
-      console.warn(`In cancelOffer`, e.data ? e.data.message : e.message)
-      if (e.data && e.data.message)
-        setError(e.data.message)
+      console.warn(`In cancelOffer`, e.error ? e.error.message : e.message)
+      if (e.error && e.error.message)
+        setError(e.error.message.replace('execution reverted: ', ''))
       else
         setError(e.message)
     })

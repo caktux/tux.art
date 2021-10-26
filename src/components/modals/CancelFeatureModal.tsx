@@ -27,9 +27,9 @@ export const CancelFeatureModal = (props: any) => {
     const contract = new ethers.Contract(AUCTIONS, Auctions, signer as Signer)
 
     const tx = await contract.cancelFeature(props.auction.id).catch((e: any) => {
-      console.warn(`In cancelFeature for ${props.auction.id}`, e.data ? e.data.message : e.message)
-      if (e.data && e.data.message)
-        setError(e.data.message)
+      console.warn(`In cancelFeature for ${props.auction.id}`, e.error ? e.error.message : e.message)
+      if (e.error && e.error.message)
+        setError(e.error.message.replace('execution reverted: ', ''))
       else
         setError(e.message)
     })

@@ -168,9 +168,9 @@ export default function Account(props: any) {
       const contract = new ethers.Contract(AUCTIONS, Auctions, signer as Signer)
 
       const tx = await contract.updateName(name).catch((e: any) => {
-        console.warn(`In contract.updateName`, e.data ? e.data.message : e.message)
-        if (e.data && e.data.message)
-          setError(e.data.message)
+        console.warn(`In contract.updateName`, e.error ? e.error.message : e.message)
+        if (e.error && e.error.message)
+          setError(e.error.message.replace('execution reverted: ', ''))
         else
           setError(e.message)
       })
@@ -183,9 +183,9 @@ export default function Account(props: any) {
         refresh()
       }
     } catch(e: any) {
-      console.warn(`Updating name`, e.data ? e.data.message : e.message)
-      if (e.data && e.data.message)
-        setError(e.data.message)
+      console.warn(`Updating name`, e.error ? e.error.message : e.message)
+      if (e.error && e.error.message)
+        setError(e.error.message.replace('execution reverted: ', ''))
       else
         setError(e.message)
     }
@@ -215,9 +215,9 @@ export default function Account(props: any) {
       const contract = new ethers.Contract(AUCTIONS, Auctions, signer as Signer)
 
       const tx = await contract.updateBio(cid).catch((e: any) => {
-        console.warn(`In contract.updateBio`, e.data ? e.data.message : e.message)
-        if (e.data && e.data.message)
-          setError(e.data.message)
+        console.warn(`In contract.updateBio`, e.error ? e.error.message : e.message)
+        if (e.error && e.error.message)
+          setError(e.error.message.replace('execution reverted: ', ''))
         else
           setError(e.message)
       })
@@ -230,9 +230,9 @@ export default function Account(props: any) {
         refresh()
       }
     } catch(e: any) {
-      console.warn(`Updating bio`, e.data ? e.data.message : e.message)
-      if (e.data && e.data.message)
-        setError(e.data.message)
+      console.warn(`Updating bio`, e.error ? e.error.message : e.message)
+      if (e.error && e.error.message)
+        setError(e.error.message.replace('execution reverted: ', ''))
       else
         setError(e.message)
     }
@@ -266,9 +266,9 @@ export default function Account(props: any) {
       const contract = new ethers.Contract(AUCTIONS, Auctions, signer as Signer)
 
       const tx = await contract.updatePicture(cid).catch((e: any) => {
-        console.warn(`In contract.updatePicture`, e.data ? e.data.message : e.message)
-        if (e.data && e.data.message)
-          setError(e.data.message)
+        console.warn(`In contract.updatePicture`, e.error ? e.error.message : e.message)
+        if (e.error && e.error.message)
+          setError(e.error.message.replace('execution reverted: ', ''))
         else
           setError(e.message)
       })

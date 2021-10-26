@@ -144,9 +144,9 @@ export default function About() {
             some ETH to provide initial liquidity.
           </p>
           <p>
-            * Agreements still need to be made with Alchemy, Infura, Pokt, Protocol Labs and Cloudflare.
-            Etherscan will receive payouts to their donation address. Pinata replied that they only
-            accept credit and debit card payments...
+            * Alchemy, Infura and Etherscan will receive 100 TUX weekly payouts.
+            Agreements still need to be made with Pokt, Protocol Labs and Cloudflare. Pinata replied
+            that they only accept credit card payments...
           </p>
 
           <h5>Metadata format</h5>

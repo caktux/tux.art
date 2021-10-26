@@ -24,6 +24,7 @@ export default function ListItem(props: any) {
   const { provider } = useEthereum()
   const { account } = useWallet()
 
+  const [ error, setError ] = useState(false)
   const [ loaded, setLoaded ] = useState(false)
   const [ fetched, setFetched ] = useState(false)
   const [ token, setToken ] = useState(emptyToken as any)
@@ -39,6 +40,7 @@ export default function ListItem(props: any) {
   useEffect(() => {
     const fetchToken = async () => {
       if (!props.loaded && mounted.current) {
+        setError(false)
         setLoaded(false)
         setFetched(false)
         updateToken(emptyToken)
@@ -59,6 +61,7 @@ export default function ListItem(props: any) {
         if (props.setFailed)
           props.setFailed()
         setLoaded(true)
+        setError(true)
         return
       }
 
@@ -86,7 +89,7 @@ export default function ListItem(props: any) {
     <Col className='mb-3'>
       <Card className='previewCard'>
         <div className='previewImage'>
-        { token.props.src ? (
+        { !error && token.props.src ? (
             token.props.isImagePreview ?
             <Link to={ `/nft/${props.address}/${props.tokenId}` }>
               <LazyImg
@@ -130,12 +133,15 @@ export default function ListItem(props: any) {
               </Link>
             </Container>
           ) :
+          error ?
+          <Container className='link-alert'>
+            <Alert variant='info'>
+              Loading failed
+            </Alert>
+          </Container> :
           <Container className='text-center'>
             <Spinner animation='grow' role='status' />
           </Container>
-        }
-        {
-          // <Card.Img variant='top' src={ token.props.src } alt={ token.props.title } />
         }
         </div>
         <Card.Body>

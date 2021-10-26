@@ -31,6 +31,7 @@ export default function AuctionItem(props: any) {
   const { account } = useWallet()
 
   const [ tick, setTick ] = useState(true)
+  const [ error, setError ] = useState(false)
   const [ loaded, setLoaded ] = useState(false)
   const [ fetched, setFetched ] = useState(false)
   const [ token, setToken ] = useState(emptyToken as any)
@@ -61,6 +62,7 @@ export default function AuctionItem(props: any) {
   useEffect(() => {
     const fetchToken = async () => {
       if (!props.loaded && mounted.current) {
+        setError(false)
         setLoaded(false)
         setFetched(false)
         updateToken(emptyToken)
@@ -81,6 +83,7 @@ export default function AuctionItem(props: any) {
         if (props.setFailed)
           props.setFailed()
         setLoaded(true)
+        setError(true)
         return
       }
 
@@ -149,6 +152,12 @@ export default function AuctionItem(props: any) {
               </Link>
             </Container>
           ) :
+          error ?
+          <Container className='link-alert'>
+            <Alert variant='info'>
+              Loading failed
+            </Alert>
+          </Container> :
           <Container className='text-center'>
             <Spinner animation='grow' role='status' />
           </Container>

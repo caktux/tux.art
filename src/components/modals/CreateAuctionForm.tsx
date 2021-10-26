@@ -133,9 +133,9 @@ export const CreateAuctionForm = (props: any) => {
           ethers.utils.parseUnits(event.target[0].value, 'ether'),
           event.target[2].value,
         ).catch((e: any) => {
-          console.warn(`In createAuction`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In createAuction`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
         })

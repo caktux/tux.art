@@ -119,7 +119,7 @@ export async function getActiveHouses(provider: any, limit: number, from: string
 }
 
 
-export async function getRankedHouses(provider: any, limit: number, from: string, minimum?: number) {
+export async function getRankedHouses(provider: any, limit: number, from: string, minimum?: number, getCreators?: boolean) {
   const contract = new ethers.Contract(AUCTIONS, Auctions, provider)
 
   const totalHouses = await contract.totalHouses().catch((e: any) => {
@@ -156,16 +156,18 @@ export async function getRankedHouses(provider: any, limit: number, from: string
 
     const shortCurator = await shortAddress(house.curator, provider)
 
-    const houseCreators = await contract.getHouseCreators(houseId).catch((e: any) => {
-      console.warn(`In getHouseCreators`, e.message)
-    })
     let creators = []
-    for (const address of houseCreators) {
-      const shortCreator = await shortAddress(address, provider)
-      creators.push({
-        address: address,
-        shortAddress: shortCreator
+    if (getCreators) {
+      const houseCreators = await contract.getHouseCreators(houseId).catch((e: any) => {
+        console.warn(`In getHouseCreators`, e.message)
       })
+      for (const address of houseCreators) {
+        const shortCreator = await shortAddress(address, provider)
+        creators.push({
+          address: address,
+          shortAddress: shortCreator
+        })
+      }
     }
 
     const newHouse = {

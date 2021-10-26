@@ -211,9 +211,9 @@ export const MintForm = (props: any) => {
       const paddedEstimate = gasEstimate.mul(105).div(100)
 
       const tx = await contract.mint(metadataCid, { gasLimit: paddedEstimate.toString() }).catch((e: any) => {
-        console.warn(`In contract.mint`, e.data ? e.data.message : e.message)
-        if (e.data && e.data.message)
-          props.setError(e.data.message)
+        console.warn(`In contract.mint`, e.error ? e.error.message : e.message)
+        if (e.error && e.error.message)
+          props.setError(e.error.message.replace('execution reverted: ', ''))
         else
           props.setError(e.message)
       })
@@ -229,9 +229,9 @@ export const MintForm = (props: any) => {
       setPending(false)
 
     } catch(e: any) {
-      console.warn(`Minting`, e.data ? e.data.message : e.message)
-      if (e.data && e.data.message)
-        props.setError(e.data.message)
+      console.warn(`Minting`, e.error ? e.error.message : e.message)
+      if (e.error && e.error.message)
+        props.setError(e.error.message.replace('execution reverted: ', ''))
       else
         props.setError(e.message)
     }

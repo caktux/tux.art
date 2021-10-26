@@ -57,22 +57,22 @@ export default function Collections(props: any) {
   }
 
   const handleBack = () => {
-    setLoaded(false)
     setOffset((offset) => { return offset - props.limit })
     setForwardDisabled(true)
     setBackDisabled(true)
-    setContracts([])
     setFetched(false)
+    setLoaded(false)
+    setContracts([])
     // history.push(`/collections/${offset - props.limit}`)
   }
 
   const handleForward = () => {
-    setLoaded(false)
     setOffset((offset) => { return offset + props.limit })
     setForwardDisabled(true)
     setBackDisabled(true)
-    setContracts([])
     setFetched(false)
+    setLoaded(false)
+    setContracts([])
     // history.push(`/collections/${offset + props.limit}`)
   }
 

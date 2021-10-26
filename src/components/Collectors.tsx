@@ -63,9 +63,9 @@ export const Collectors = (props: any) => {
       const contract = new ethers.Contract(AUCTIONS, Auctions, signer as Signer)
 
       await contract.updateCollectorRank(address).catch((e: any) => {
-        console.warn(`In updateCollectorRank`, e.data ? e.data.message : e.message)
-        if (e.data && e.data.message)
-          setError(e.data.message.slice(0, e.data.message.length - 1).slice(79, e.data.message.length))
+        console.warn(`In updateCollectorRank`, e.error ? e.error.message : e.message)
+        if (e.error && e.error.message)
+          setError(e.error.message.replace('execution reverted: ', ''))
         else
           setError(e.message)
         return
@@ -81,6 +81,8 @@ export const Collectors = (props: any) => {
     setForwardDisabled(true)
     setBackDisabled(true)
     setFetched(false)
+    setLoaded(false)
+    setCollectors([])
   }
 
   const handleForward = () => {
@@ -88,6 +90,8 @@ export const Collectors = (props: any) => {
     setForwardDisabled(true)
     setBackDisabled(true)
     setFetched(false)
+    setLoaded(false)
+    setCollectors([])
   }
 
   useEffect(() => {

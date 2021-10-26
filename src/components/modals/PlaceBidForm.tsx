@@ -48,9 +48,9 @@ export const PlaceBidForm = (props: any) => {
             props.auction.id,
             { value: amount }
           ).catch((e: any) => {
-            console.warn(`In createBid`, e.data ? e.data.message : e.message)
-            if (e.data && e.data.message)
-              setError(e.data.message)
+            console.warn(`In createBid`, e.error ? e.error.message : e.message)
+            if (e.error && e.error.message)
+              setError(e.error.message.replace('execution reverted: ', ''))
             else
               setError(e.message)
           })
@@ -59,9 +59,9 @@ export const PlaceBidForm = (props: any) => {
             props.auction.id,
             { value: amount }
           ).catch((e: any) => {
-            console.warn(`In buyAuction`, e.data ? e.data.message : e.message)
-            if (e.data && e.data.message)
-              setError(e.data.message)
+            console.warn(`In buyAuction`, e.error ? e.error.message : e.message)
+            if (e.error && e.error.message)
+              setError(e.error.message.replace('execution reverted: ', ''))
             else
               setError(e.message)
           })

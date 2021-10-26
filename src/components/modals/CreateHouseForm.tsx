@@ -53,9 +53,9 @@ export const CreateHouseForm = (props: any) => {
           event.target[4].checked ? false : true, // per-auction approval
           event.target[3].value // Metadata
         ).catch((e: any) => {
-          console.warn(`In createHouse`, e.data ? e.data.message : e.message)
-          if (e.data && e.data.message)
-            setError(e.data.message)
+          console.warn(`In createHouse`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
         })

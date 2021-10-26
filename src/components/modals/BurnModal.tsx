@@ -26,9 +26,9 @@ export const BurnModal = (props: any) => {
     const contract = new ethers.Contract(props.token.address, ERC721, signer as Signer)
 
     const tx = await contract.burn(props.token.id).catch((e: any) => {
-      console.warn(`In contract.burn`, e.data ? e.data.message : e.message)
-      if (e.data && e.data.message)
-        setError(e.data.message)
+      console.warn(`In contract.burn`, e.error ? e.error.message : e.message)
+      if (e.error && e.error.message)
+        setError(e.error.message.replace('execution reverted: ', ''))
       else
         setError(e.message)
     })

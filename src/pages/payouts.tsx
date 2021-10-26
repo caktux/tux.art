@@ -2,7 +2,6 @@
 import { useState } from 'react'
 import { useWallet } from 'use-wallet'
 
-import InputGroup from 'react-bootstrap/InputGroup'
 import Container from 'react-bootstrap/Container'
 import Spinner from 'react-bootstrap/Spinner'
 import Button from 'react-bootstrap/Button'
@@ -12,59 +11,71 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 import { ethers, Signer } from 'ethers'
-import { Auctions } from '../../abi/Auctions'
-import { AUCTIONS } from '../../constants/contracts'
+import { TuxERC20 } from '../abi/TuxERC20'
+import { TUXTOKEN } from '../constants/contracts'
 
 
-export const MakeOfferForm = (props: any) => {
-  const { ethereum } = useWallet()
+export default function Payouts(props: any) {
+  const { account, ethereum } = useWallet()
 
   const [ error, setError ] = useState(false as any)
-  const [ validated, setValidated ] = useState(false)
   const [ pending, setPending ] = useState(false)
+  const [ validated, setValidated ] = useState(false)
+  const [ addressInvalid, setAddressInvalid ] = useState(false)
   const [ txResult, setTxResult ] = useState('')
   const [ success, setSuccess ] = useState('')
 
 
   const handleSubmit = (event: any) => {
+    const form = event.currentTarget;
     event.preventDefault()
     event.stopPropagation()
 
-    if (event.currentTarget.checkValidity() === false) {
+    if (form.checkValidity() === false) {
       setValidated(true)
     } else {
       setValidated(false)
       setPending(true)
 
-      const submitBid = async () => {
+      const addPayoutAddress = async () => {
         const signer = new ethers.providers.Web3Provider(ethereum).getSigner()
-        const contract = new ethers.Contract(AUCTIONS, Auctions, signer as Signer)
 
-        const amount = ethers.utils.parseUnits(event.target[0].value, 'ether')
+        const contract = new ethers.Contract(TUXTOKEN, TuxERC20, signer as Signer)
 
-        const tx = await contract.makeOffer(
-          props.tokenContract,
-          props.tokenId,
-          { value: amount }
-        ).catch((e: any) => {
-          console.warn(`In makeOffer`, e.error ? e.error.message : e.message)
+        const owner = await contract.owner().catch((e: any) => {
+          console.warn(`In contract.owner`, e.error ? e.error.message : e.message)
           if (e.error && e.error.message)
             setError(e.error.message.replace('execution reverted: ', ''))
           else
             setError(e.message)
+          setPending(false)
+          return
+        })
+        if (owner !== account) {
+          setError('Not contract owner')
+          setPending(false)
+          return
+        }
+
+        const tx = await contract.addPayoutAddress(event.target[0].value).catch((e: any) => {
+          console.warn(`In addPayoutAddress`, e.error ? e.error.message : e.message)
+          if (e.error && e.error.message)
+            setError(e.error.message.replace('execution reverted: ', ''))
+          else
+            setError(e.message)
+          setPending(false)
+          return
         })
 
         if (tx && tx.hash) {
           setTxResult(tx.hash)
           await tx.wait()
-          setSuccess(`Successfully placed your offer!`)
+          setSuccess(`${event.target[0].value} added successfully`)
         }
 
         setPending(false)
-        props.setLoaded(false)
-        props.setFetched(false)
       }
-      submitBid()
+      addPayoutAddress()
     }
   }
 
@@ -74,8 +85,17 @@ export const MakeOfferForm = (props: any) => {
       event.stopPropagation()
       setValidated(false)
     } else {
+      if (event.target.id === 'validationAddress' &&
+          !ethers.utils.isAddress(event.target.value)) {
+        setAddressInvalid(true)
+        setValidated(false)
+        return
+      }
+      setAddressInvalid(false)
       setValidated(true)
       setError(false)
+      setTxResult('')
+      setSuccess('')
     }
   }
 
@@ -86,6 +106,7 @@ export const MakeOfferForm = (props: any) => {
           {error}
         </Alert>
       }
+
       { txResult &&
         <Alert variant='primary' onClose={() => setTxResult('')} dismissible>
           <Alert.Heading>Transaction sent!</Alert.Heading>
@@ -97,9 +118,10 @@ export const MakeOfferForm = (props: any) => {
           </p>
         </Alert>
       }
+
       { success &&
         <Alert variant='success' onClose={() => setSuccess('')} dismissible>
-          {success}
+          { success }
         </Alert>
       }
       { pending &&
@@ -107,36 +129,29 @@ export const MakeOfferForm = (props: any) => {
           <Spinner animation='grow' role='status' />
         </Container>
       }
-      { !pending &&
+      { !pending && account &&
         <Form noValidate validated={validated} onSubmit={handleSubmit} onChange={handleChange}>
           <Row className='mb-3'>
-            <Form.Group as={Col} controlId="validationBid">
-              <Form.Label>Offer amount</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  required
-                  size='lg'
-                  type='number'
-                  min={0.001}
-                  step={0.001}
-                  placeholder='Offer amount in ETH'
-                  aria-label='Offer amount in ETH' />
-                <InputGroup.Text>Ξ</InputGroup.Text>
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
-                  Please enter a valid amount.
-                </Form.Control.Feedback>
-              </InputGroup>
-              <Form.Text id="offerAmountHelp" muted>
-                Minimum offer is 0.001 Ξ
-              </Form.Text>
+            <Form.Group as={Col} controlId='validationAddress'>
+              <Form.Label>Payout address</Form.Label>
+              <Form.Control
+                required
+                type='text'
+                placeholder='0x...'
+                max={42}
+                htmlSize={42}
+                isInvalid={addressInvalid}
+                pattern='^0x[a-fA-F0-9]{40}'
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                Please enter a valid address.
+              </Form.Control.Feedback>
             </Form.Group>
           </Row>
-          { ethereum &&
-            <Button type='submit' disabled={!validated}>
-              Make offer
-            </Button>
-          }
+          <Button type='submit'>
+            Add payout address
+          </Button>
         </Form>
       }
     </Container>

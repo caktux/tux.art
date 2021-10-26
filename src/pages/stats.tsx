@@ -52,16 +52,16 @@ export default function Stats(props: any) {
     <Container fluid='lg'>
       <Tabs activeKey={tab} onSelect={(key) => handleChangeTab(key)} mountOnEnter={true}>
         <Tab eventKey='houses' title='Houses'>
-          <Houses limit={20} />
+          <Houses limit={10} />
         </Tab>
         <Tab eventKey='creators' title='Creators'>
-          <Creators limit={20} />
+          <Creators limit={10} />
         </Tab>
         <Tab eventKey='collectors' title='Collectors'>
-          <Collectors limit={20} />
+          <Collectors limit={10} />
         </Tab>
         <Tab eventKey='collections' title='Collections'>
-          <Collections limit={20} />
+          <Collections limit={10} />
         </Tab>
         <Tab eventKey='featured' title='Featured'>
           <FeaturedQueue limit={10} />

@@ -72,6 +72,8 @@ export const FeaturedQueue = (props: any) => {
     setForwardDisabled(true)
     setBackDisabled(true)
     setFetched(false)
+    setLoaded(false)
+    setAuctions([])
   }
 
   const handleForward = () => {
@@ -79,6 +81,8 @@ export const FeaturedQueue = (props: any) => {
     setForwardDisabled(true)
     setBackDisabled(true)
     setFetched(false)
+    setLoaded(false)
+    setAuctions([])
   }
 
   const handleRefresh = (loaded: boolean) => {
