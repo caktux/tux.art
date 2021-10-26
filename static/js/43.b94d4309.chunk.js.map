@@ -1,0 +1,1 @@
+{"version":3,"sources":["css/Sketchy.tsx"],"names":["Sketchy"],"mappings":"4GAAA,+BAMeA,UAFW,kBAAM","file":"static/js/43.b94d4309.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/sketchy/bootstrap.min.css'\n\nconst Sketchy: React.FC = () => <></>\n\nexport default Sketchy\n"],"sourceRoot":""}
