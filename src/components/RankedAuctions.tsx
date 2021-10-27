@@ -76,7 +76,7 @@ export const RankedAuctions = (props: any) => {
         return
       }
 
-      offsets[offset + props.limit] = auctions[auctions.length - 1].id
+      offsets[offset + props.limit] = auctions[auctions.length - 1].tokenOwner
       setOffsets(offsets)
 
       updateAuctions(auctions, total)

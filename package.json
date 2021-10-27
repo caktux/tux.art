@@ -40,7 +40,7 @@
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
-    "deployIpfs": "yarn build && ipfs-deploy -p infura -p pinata -d cloudflare build"
+    "deployIpfs": "ipfs-deploy -p infura -p pinata -d cloudflare build"
   },
   "eslintConfig": {
     "extends": [

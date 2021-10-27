@@ -152,7 +152,7 @@ export async function getTopAuctions(provider: any, limit: number, from: string)
     }
   }
 
-  return [total, auctions]
+  return [total.toNumber(), auctions]
 }
 
 
