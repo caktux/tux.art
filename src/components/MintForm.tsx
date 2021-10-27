@@ -30,7 +30,6 @@ export const MintForm = (props: any) => {
   const [ name, setName ] = useState('')
   const [ description, setDescription ] = useState('')
   const [ validated, setValidated ] = useState(false)
-  // const [ localPinning, setLocalPinning ] = useState(true)
   const [ imagePinned, setImagePinned ] = useState('')
   const [ imagePinnedInfura, setImagePinnedInfura ] = useState('')
   // const [ imagePinnedPinata, setImagePinnedPinata ] = useState('')
@@ -41,9 +40,6 @@ export const MintForm = (props: any) => {
   const [ capturingMedia, setCapturingMedia ] = useState(false)
   const [ imageType, setImageType ] = useState('image/jpeg')
   const [ mediaType, setMediaType ] = useState('image/jpeg')
-  // const [ metadataPinned, setMetadataPinned ] = useState('')
-  // const [ metadataPinnedInfura, setMetadataPinnedInfura ] = useState('')
-  // const [ metadataPinnedPinata, setMetadataPinnedPinata ] = useState('')
   const [ metadataHash, setMetadataHash ] = useState('')
   const [ pending, setPending ] = useState(false)
   const [ txResult, setTxResult ] = useState('' as any)
@@ -84,15 +80,6 @@ export const MintForm = (props: any) => {
         kind === 'image' ? props.setImageUploadProgress(progress) : props.setMediaUploadProgress(progress)
 
         console.log(`Pinned on local node: ${cid}`)
-
-        // let bufs:Array<Buffer> = []
-        // for await (const chunk of ipfs.cat(cid))
-        //   bufs.push(new Buffer(chunk))
-        // const data = Buffer.concat(bufs)
-        // const blob = new Blob( [data], { type: kind === 'image' ? imageType : mediaType } )
-        // const src = URL.createObjectURL(blob)
-        //
-        // kind === 'image' ? props.setUploadedImage(src) : props.setUploadedMedia(src)
       }
 
 
@@ -184,18 +171,15 @@ export const MintForm = (props: any) => {
       const status = await nftstorage.check(metadataCid)
 
       console.log('Pinned metadata on nft.storage', status)
-      // setMetadataPinned(status ? 'success' : 'danger')
 
 
       const { cid } = await infura.add(new Blob([metadataJSON], { type: 'application/json' }), { cidVersion: 1 })
       console.log(`Pinned metadata on Infura: ${cid}`)
-      // setMetadataPinnedInfura(cid ? 'success' : 'warning')
 
 
       const resp = await pinToPinata(metadataCid)
       if (resp)
         console.log('Pinned metadata on Pinata', resp)
-      // setMetadataPinnedPinata(resp ? 'success' : 'warning')
 
 
       if (cid.toString() !== metadataCid || (localCid && localCid !== metadataCid))
@@ -276,10 +260,6 @@ export const MintForm = (props: any) => {
     setDescription(event.currentTarget.value)
   }
 
-  // const handleChangePinning = (event: any) => {
-  //   setLocalPinning(event.currentTarget.checked)
-  // }
-
   const handleSubmit = (event: any) => {
     const form = event.currentTarget;
     event.preventDefault()
@@ -344,6 +324,9 @@ export const MintForm = (props: any) => {
                       <Form.Group controlId='formImage'>
                         <Form.Label>Select the preview image</Form.Label>
                         <Form.Control type='file' />
+                        <Form.Text id='imageHelp' muted>
+                          Maximum 1080x1080
+                        </Form.Text>
                       </Form.Group>
                     </Row>
                     <div className='d-grid gap-2'>
@@ -399,6 +382,9 @@ export const MintForm = (props: any) => {
                       <Form.Group controlId='formMedia'>
                         <Form.Label>Select the full resolution image or media file</Form.Label>
                         <Form.Control type='file' />
+                        <Form.Text id='mediaHelp' muted>
+                          Maximum ~100 MB (for now)
+                        </Form.Text>
                       </Form.Group>
                     </Row>
                     <div className='d-grid gap-2'>
@@ -423,20 +409,6 @@ export const MintForm = (props: any) => {
           </Row>
 
           <Form noValidate validated={validated} onSubmit={handleSubmit} onChange={handleChange} className='mb-3'>
-            {
-            // <Row className='mb-3'>
-            //   <Form.Group as={Col} controlId="validationLocalPinning">
-            //     <Form.Check
-            //       value={'checked'}
-            //       label='Pin to local IPFS node'
-            //       onChange={handleChangePinning}
-            //       defaultChecked />
-            //     <Form.Text id="localPinningHelp" muted>
-            //       If a local IPFS node is detected, pin the image, media and metadata files.
-            //     </Form.Text>
-            //   </Form.Group>
-            // </Row>
-            }
             <Row className='mb-3'>
               <Form.Group as={Col} controlId="validationTitle">
                 <Form.Label>Title</Form.Label>
