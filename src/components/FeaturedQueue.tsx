@@ -59,10 +59,10 @@ export const FeaturedQueue = (props: any) => {
       setBackDisabled(false)
     else if (!backDisabled && offset <= props.limit)
       setBackDisabled(true)
-    if (forwardDisabled && auctions.length < total)
-      setForwardDisabled(true)
-    else if (!forwardDisabled && auctions.length >= total)
+    if (forwardDisabled && offset + props.limit < total)
       setForwardDisabled(false)
+    else if (!forwardDisabled && offset + props.limit >= total)
+      setForwardDisabled(true)
 
     setLoaded(true)
   }

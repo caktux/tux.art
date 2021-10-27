@@ -227,19 +227,19 @@ export default function Address(props: any) {
         </Tab>
 
         <Tab eventKey='houses' title='Houses'>
-          <Container>
+          <Container fluid='lg'>
             <Row>
               <Col xs={12}>
-                <h4 className='my-5'>Houses as curator</h4>
+                <h4 className='mt-5'>Houses as curator</h4>
               </Col>
             </Row>
             <CuratorHouses address={address} />
           </Container>
 
-          <Container>
+          <Container fluid='lg'>
             <Row>
               <Col xs={12}>
-                <h4 className='my-5'>Houses as creator</h4>
+                <h4 className='mt-5 mb-4'>Houses as creator</h4>
               </Col>
             </Row>
             <CreatorHouses address={address} />

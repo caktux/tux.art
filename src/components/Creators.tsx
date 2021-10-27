@@ -49,10 +49,10 @@ export const Creators = (props: any) => {
       setBackDisabled(false)
     else if (!backDisabled && offset <= props.limit)
       setBackDisabled(true)
-    if (forwardDisabled && creators.length < total)
-      setForwardDisabled(true)
-    else if (!forwardDisabled && creators.length >= total)
+    if (forwardDisabled && offset + props.limit < total)
       setForwardDisabled(false)
+    else if (!forwardDisabled && offset + props.limit >= total)
+      setForwardDisabled(true)
 
     setLoaded(true)
   }

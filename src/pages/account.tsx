@@ -447,7 +447,7 @@ export default function Account(props: any) {
           <Container fluid='lg'>
               <Row>
                 <Col xs={6}>
-                  <h4 className='my-5'>Houses as curator</h4>
+                  <h4 className='mt-5 mb-0'>Houses as curator</h4>
                 </Col>
                 <Col xs={6} className='text-end'>
                   { account ?
@@ -459,10 +459,10 @@ export default function Account(props: any) {
               <CuratorHouses address={address} />
           </Container>
 
-          <Container fluid='lg'>
+          <Container fluid='lg' className='mt-3'>
             <Row>
               <Col xs={12}>
-                <h4 className='my-5'>Houses as creator</h4>
+                <h4 className='mb-4'>Houses as creator</h4>
               </Col>
             </Row>
             <CreatorHouses address={address} />

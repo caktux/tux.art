@@ -99,7 +99,7 @@ export default function CuratorHouses(props: any) {
 
   return (
     <>
-      <Table responsive striped hover>
+      <Table className={account && account === props.address ? 'my-5' : 'mt-3'} responsive striped hover>
         <thead>
           <tr>
             <th>Name</th>
