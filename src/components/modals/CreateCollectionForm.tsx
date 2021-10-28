@@ -116,7 +116,7 @@ export const CreateCollectionForm = (props: any) => {
           <p>
             Contract address:{' '}
             <Alert.Link
-              href={`${window.location.origin}/contract/${collectionTxResult.address}`}
+              href={`#/contract/${collectionTxResult.address}`}
               as={'a'} target='blank'>
               {collectionTxResult.address}
             </Alert.Link>
@@ -142,7 +142,7 @@ export const CreateCollectionForm = (props: any) => {
       }
       { success &&
         <Alert variant='success' onClose={() => setSuccess('')} dismissible>
-          <Alert.Link href={`${window.location.origin}/#/contract/${collectionTxResult.address}`} as={'a'}>
+          <Alert.Link href={`#/contract/${collectionTxResult.address}`} as={'a'}>
             {success}
           </Alert.Link> created successfully!
         </Alert>

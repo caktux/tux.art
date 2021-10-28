@@ -98,7 +98,7 @@ function App() {
     <Router>
       <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark' className={`theme-${theme}`}>
         <Container fluid>
-          <Navbar.Brand href='/'>tux.art</Navbar.Brand>
+          <Navbar.Brand href='#/'>tux.art</Navbar.Brand>
           <Navbar.Collapse id='responsive-navbar-nav'>
             <Nav>
               <Nav.Item>
