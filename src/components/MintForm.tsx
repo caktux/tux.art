@@ -383,7 +383,7 @@ export const MintForm = (props: any) => {
                         <Form.Label>Select the full resolution image or media file</Form.Label>
                         <Form.Control type='file' />
                         <Form.Text id='mediaHelp' muted>
-                          Maximum ~100 MB (for now)
+                          Maximum ~100 MB
                         </Form.Text>
                       </Form.Group>
                     </Row>

@@ -69,7 +69,7 @@ export default function FullNFT(props: any) {
   const [ loaded, setLoaded ] = useState(false)
   const [ fetched, setFetched ] = useState(false)
   const [ house, setHouse ] = useState({} as any)
-  // const [ countdown, setCountdown ] = useState(emptyCountdown as any)
+  const [ duration, setDuration ] = useState('')
   const [ auction, setAuction ] = useState(emptyAuction as any)
   const [ token, setToken ] = useState(emptyToken as any)
   const [ bids, setBids ] = useState([] as any)
@@ -153,7 +153,13 @@ export default function FullNFT(props: any) {
 
     setAuction(auction)
 
-    setIsAuction(!auction.tokenId || (auction.duration && auction.duration.gt(0)))
+    const isAuction = !auction.tokenId || (auction.duration && auction.duration.gt(0))
+    setIsAuction(isAuction)
+
+    const days = Math.floor(auction.duration.toNumber() / 86400)
+    const hours = Math.floor(auction.duration.toNumber() / 3600)
+    const duration = days > 1 ? `${days} day${hours % 24 > 0 ? ` ${hours % 24} hour` : ''}` : `${hours} hour`
+    setDuration(isAuction && duration)
 
     if (auction.houseId.isZero())
       return
@@ -489,7 +495,7 @@ export default function FullNFT(props: any) {
                       { (loaded && isAuction && auction.approved && token.countdown && token.countdown.remaining <= 0) ?
                         'Auction ended' : '' }
                       { (loaded && isAuction && auction.approved && auction.reservePrice.gt(0) && !token.countdown) ?
-                        `A ${auction.duration / 3600} hour auction will start once the first bid is made` : '' }
+                        `A ${duration} auction will start once the first bid is made` : '' }
                       { (loaded && auction && !auction.approved && auction.reservePrice && auction.reservePrice.gt(0)) ?
                         'Waiting for approval' : ''}
                     </span>
