@@ -27,6 +27,7 @@ import SellerAuctions from '../components/SellerAuctions'
 import BidderAuctions from '../components/BidderAuctions'
 
 import { CreateHouseModal } from '../components/modals/CreateHouseModal'
+import { RegisterContractModal } from '../components/modals/RegisterContractModal'
 
 import { ethers, Signer, BigNumber } from 'ethers'
 import { Auctions } from '../abi/Auctions'
@@ -68,6 +69,7 @@ export default function Account(props: any) {
   const [ accountFetched, setAccountFetched] = useState(false)
   const [ tuxAccount, setTuxAccount] = useState({} as any)
   const [ showCreateHouse, setShowCreateHouse] = useState(false)
+  const [ showRegisterContract, setShowRegisterContract ] = useState(false)
 
   const [ balance, setBalance ] = useState(BigNumber.from(0))
   const [ balanceFetched, setBalanceFetched ] = useState(false)
@@ -86,6 +88,9 @@ export default function Account(props: any) {
 
   const handleShowCreateHouse = () => setShowCreateHouse(true)
   const handleCloseCreateHouse = () => setShowCreateHouse(false)
+
+  const handleShowRegisterContract = () => setShowRegisterContract(true)
+  const handleCloseRegisterContract = () => setShowRegisterContract(false)
 
   const handleChangeTab = (key: string | null) => {
     if (!mounted.current)
@@ -353,7 +358,7 @@ export default function Account(props: any) {
         console.warn(`In contract.balanceOf`, e.message)
       })
 
-      if (!mounted.current)
+      if (!mounted.current || !balance)
         return
 
       setBalance(balance)
@@ -474,10 +479,14 @@ export default function Account(props: any) {
             <Row xs={1}>
               <Card.Header>
                 <Row xs={1}>
-                  <Col xs={8} className='vertical-align'>
+                  <Col xs={4} className='vertical-align'>
                     All collections
                   </Col>
-                  <Col xs={4} className='text-end'>
+                  <Col xs={8} className='text-end'>
+                    { account ?
+                      <Button onClick={handleShowRegisterContract} size='sm' className='me-3'>
+                        Register collection
+                      </Button> : '' }
                     <ButtonGroup>
                       <Button
                         size='sm'
@@ -719,6 +728,11 @@ export default function Account(props: any) {
       <CreateHouseModal
         show={showCreateHouse}
         handleClose={handleCloseCreateHouse}
+        setFetched={setFetched} />
+
+      <RegisterContractModal
+        show={showRegisterContract}
+        handleClose={handleCloseRegisterContract}
         setFetched={setFetched} />
     </Container>
   )
