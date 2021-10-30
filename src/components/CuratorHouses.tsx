@@ -17,6 +17,10 @@ import Form from 'react-bootstrap/Form'
 
 import TokenAmount from 'token-amount'
 
+import { ethers, Signer } from 'ethers'
+import { Auctions } from '../abi/Auctions'
+import { AUCTIONS } from '../constants/contracts'
+
 import { AddCreatorModal } from './modals/AddCreatorModal'
 import { RemoveCreatorModal } from './modals/RemoveCreatorModal'
 import { UpdateFeeModal } from './modals/UpdateFeeModal'
@@ -27,14 +31,15 @@ import { getCuratorHouses } from '../fetchers/houses'
 
 export default function CuratorHouses(props: any) {
   const { provider } = useEthereum()
-  const { account } = useWallet()
+  const { account, ethereum } = useWallet()
   const history = useHistory()
 
   const mounted = useRef(true)
 
+  const [ error, setError ] = useState('')
   const [ loaded, setLoaded ] = useState(false)
   const [ fetched, setFetched ] = useState(false)
-  const [ forHouseID, setForHouseID ] = useState(0)
+  const [ forHouseID, setForHouseID ] = useState('')
   const [ curatorHouses, setCuratorHouses ] = useState([])
   const [ showAddCreator, setShowAddCreator] = useState(false)
   const [ showRemoveCreator, setShowRemoveCreator] = useState(false)
@@ -46,35 +51,52 @@ export default function CuratorHouses(props: any) {
     setShowAddCreator(true)
   }
   const handleCloseAddCreator = () => {
-    setForHouseID(0)
+    setForHouseID('')
     setShowAddCreator(false)
   }
 
-  const handleShowRemoveCreator = (houseId: any) => {
+  const handleShowRemoveCreator = (houseId: string) => {
     setForHouseID(houseId)
     setShowRemoveCreator(true)
   }
   const handleCloseRemoveCreator = () => {
-    setForHouseID(0)
+    setForHouseID('')
     setShowRemoveCreator(false)
   }
 
-  const handleShowUpdateFee = (houseId: any) => {
+  const handleShowUpdateFee = (houseId: string) => {
     setForHouseID(houseId)
     setShowUpdateFee(true)
   }
   const handleCloseUpdateFee = () => {
-    setForHouseID(0)
+    setForHouseID('')
     setShowUpdateFee(false)
   }
 
-  const handleShowUpdateMetadata = (houseId: any) => {
+  const handleShowUpdateMetadata = (houseId: string) => {
     setForHouseID(houseId)
     setShowUpdateMetadata(true)
   }
   const handleCloseUpdateMetadata = () => {
-    setForHouseID(0)
+    setForHouseID('')
     setShowUpdateMetadata(false)
+  }
+
+  const handleUpdateRanking = (houseId: string) => {
+    const updateRanking = async() => {
+      const signer = new ethers.providers.Web3Provider(ethereum).getSigner()
+      const contract = new ethers.Contract(AUCTIONS, Auctions, signer as Signer)
+
+      await contract.updateHouseRank(houseId).catch((e: any) => {
+        console.warn(`In updateHouseRank`, e.error ? e.error.message : e.message)
+        if (e.error && e.error.message)
+          setError(e.error.message.replace('execution reverted: ', ''))
+        else
+          setError(e.message)
+        return
+      })
+    }
+    updateRanking()
   }
 
   useEffect(() => {
@@ -99,6 +121,11 @@ export default function CuratorHouses(props: any) {
 
   return (
     <>
+      { error &&
+        <Alert variant='danger' onClose={() => setError('')} className='mt-3' dismissible>
+          {error}
+        </Alert>
+      }
       <Table className={account && account === props.address ? 'my-5' : 'mt-3'} responsive striped hover>
         <thead>
           <tr>
@@ -206,6 +233,9 @@ export default function CuratorHouses(props: any) {
                       </Dropdown.Item>
                       <Dropdown.Item onClick={() => handleShowUpdateMetadata(house.id)}>
                         Update metadata
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleUpdateRanking(house.id)}>
+                        Update ranking
                       </Dropdown.Item>
                     </DropdownButton>
                   </td>
