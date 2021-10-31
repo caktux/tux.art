@@ -135,7 +135,7 @@ export default function House(props: any) {
           )
         })
       }
-      { !loaded &&
+      { !loaded && auctions.length === 0 &&
         <Container fluid>
           <Alert variant='dark' className='text-center'>
             <Spinner animation='grow' role='status' />
