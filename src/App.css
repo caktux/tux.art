@@ -109,6 +109,16 @@
   text-overflow: ellipsis;
 }
 
+.auctionCard .card-footer a,
+.previewCard .card-footer a {
+  overflow: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
 .auctionCard .card-title a,
 .auctionCard .card-footer a,
 .previewCard .card-title a,
@@ -117,12 +127,6 @@
 .list-group-item a {
   color: inherit;
   text-decoration: none;
-  overflow: hidden;
-  position: relative;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
 }
 
 .auctionCard .card-text,
