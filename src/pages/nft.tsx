@@ -318,7 +318,7 @@ export default function FullNFT(props: any) {
           {error}
         </Alert>
       }
-      <Row xs={1} md={2}>
+      <Row xs={1} lg={2}>
         <Col xl={8}>
           <Card>
             <div className='fullImage'>
