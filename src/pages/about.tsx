@@ -75,9 +75,8 @@ export default function About() {
           <p>
             Curation on Tux is achieved using "Houses". Anyone can create a house and add creators
             to it. Creators can then choose under which house to list their piece. Choosing a
-            house is optional. House curators can set a curation fee, which can be updated (existing
-            auctions keep their current fee), and need to decide whether they pre-approve auctions
-            from the creators they add or have to approve each and every auction.
+            house is optional. House curators can set a curation fee, which can be updated. Existing
+            auctions keep their current fee.
           </p>
 
           <h5>Collections</h5>
@@ -145,8 +144,7 @@ export default function About() {
           </p>
           <p>
             * Alchemy, Infura and Etherscan will receive 100 TUX weekly payouts.
-            Agreements still need to be made with Pokt, Protocol Labs and Cloudflare. Pinata replied
-            that they only accept credit card payments...
+            Agreements still need to be made with Pokt, Protocol Labs, Cloudflare and Pinata.
           </p>
 
           <h5>Metadata format</h5>

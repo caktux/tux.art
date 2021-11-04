@@ -24,7 +24,6 @@ export const CreateHouseForm = (props: any) => {
   const [ error, setError ] = useState(false as any)
   const [ validated, setValidated ] = useState(false)
   const [ curatorInvalid, setCuratorInvalid ] = useState(false)
-  // const [ requireApproval, setRequireApproval ] = useState(false)
   const [ pending, setPending ] = useState(false)
   const [ txResult, setTxResult ] = useState('')
   const [ success, setSuccess ] = useState([] as any)
@@ -50,7 +49,7 @@ export const CreateHouseForm = (props: any) => {
           event.target[0].value, // Name
           event.target[1].value, // Curator
           Math.floor(fee), // Fee %
-          event.target[4].checked ? false : true, // per-auction approval
+          true, // pre approved
           event.target[3].value // Metadata
         ).catch((e: any) => {
           console.warn(`In createHouse`, e.error ? e.error.message : e.message)
@@ -94,12 +93,6 @@ export const CreateHouseForm = (props: any) => {
       setSuccess([])
     }
   }
-
-  // const handleRequireApproval = (event: any) => {
-  //   console.log(event.currentTarget.checked)
-  //   event.preventDefault()
-  //   setRequireApproval(event.currentTarget.checked)
-  // }
 
   return (
     <Container>
@@ -146,6 +139,9 @@ export const CreateHouseForm = (props: any) => {
                 htmlSize={32}
                 placeholder='Nice house'
               />
+              <Form.Text id='feeHelp' muted>
+                House name is unique and cannot be updated.
+              </Form.Text>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               <Form.Control.Feedback type='invalid'>
                 Please enter a house name.
@@ -164,6 +160,9 @@ export const CreateHouseForm = (props: any) => {
                 isInvalid={curatorInvalid}
                 pattern='^0x[a-fA-F0-9]{40}'
               />
+              <Form.Text id='feeHelp' muted>
+                Curator address cannot be updated.
+              </Form.Text>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               <Form.Control.Feedback type='invalid'>
                 Please enter a valid address.
@@ -187,33 +186,8 @@ export const CreateHouseForm = (props: any) => {
                   Please enter a valid number.
                 </Form.Control.Feedback>
               </InputGroup>
-            </Form.Group>
-          </Row>
-          <Row className='mb-3'>
-            <Form.Group as={Col} controlId='validationMetadata'>
-              <Form.Label>Metadata IPFS or IPNS hash</Form.Label>
-              <Form.Control
-                type='text'
-                max={46}
-                htmlSize={46}
-                pattern='^Qm[1-9A-Za-z]{44}'
-                placeholder='Qm...'
-              />
-              <Form.Text id='metadataHelp' muted>
-                Optional metadata in JSON format (logo, featured creators, pieces, links){' '}
-                <span className='text-warning'>not implemented yet</span>
-              </Form.Text>
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type='invalid'>
-                Please enter valid IPFS CIDv0 hash.
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Row>
-          <Row className='mb-3'>
-            <Form.Group as={Col} controlId='validationPreApproval'>
-              <Form.Check label='Require per-auction approval' />
-              <Form.Text id='preApprovedHelp' muted>
-                Every auction will need to be approved if this option is checked.
+              <Form.Text id='feeHelp' muted>
+                Curation fee can be updated.
               </Form.Text>
             </Form.Group>
           </Row>
