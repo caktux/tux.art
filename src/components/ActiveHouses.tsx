@@ -35,6 +35,7 @@ export const ActiveHouses = (props: any) => {
     setBackDisabled(true)
     setFetched(false)
     setLoaded(false)
+    setHouses([])
   }
 
   const handleForward = () => {
@@ -43,6 +44,7 @@ export const ActiveHouses = (props: any) => {
     setBackDisabled(true)
     setFetched(false)
     setLoaded(false)
+    setHouses([])
   }
 
   const updateHouses = (houses: any, total: number) => {
@@ -52,10 +54,12 @@ export const ActiveHouses = (props: any) => {
       setBackDisabled(false)
     else if (!backDisabled && offset < props.limit)
       setBackDisabled(true)
-    if (forwardDisabled && offset + props.limit < total)
+    if (forwardDisabled && offset + props.limit < total && houses.length === props.limit)
       setForwardDisabled(false)
-    else if (!forwardDisabled && offset + props.limit >= total)
+    else if (!forwardDisabled && (offset + props.limit >= total || houses.length < props.limit))
       setForwardDisabled(true)
+
+    setLoaded(true)
   }
 
   useEffect(() => {
@@ -64,13 +68,13 @@ export const ActiveHouses = (props: any) => {
         return
       setFetched(true)
 
-      let [total, houses] = await getActiveHouses(provider, props.limit, offsets[offset], 2)
+      const [total, houses] = await getActiveHouses(provider, props.limit, offsets[offset], 2)
 
       if (!mounted.current)
         return
 
       if (!houses || houses.length === 0) {
-        setLoaded(true)
+        updateHouses([], total)
         return
       }
 
@@ -78,7 +82,6 @@ export const ActiveHouses = (props: any) => {
       setOffsets(offsets)
 
       updateHouses(houses, total)
-      setLoaded(true)
     }
     fetchHouses()
   })

@@ -51,6 +51,7 @@ export default function House(props: any) {
     setBackDisabled(true)
     setFetched(false)
     setLoaded(false)
+    setAuctions([])
   }
 
   const handleForward = () => {
@@ -59,6 +60,7 @@ export default function House(props: any) {
     setBackDisabled(true)
     setFetched(false)
     setLoaded(false)
+    setAuctions([])
   }
 
   useEffect(() => {
@@ -67,6 +69,7 @@ export default function House(props: any) {
         return
       if (fetched && !props.loaded) {
         setFetched(false)
+        setAuctions([])
         return
       }
       if (fetched || !props.loaded)

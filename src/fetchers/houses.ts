@@ -17,7 +17,7 @@ export async function getHouse(provider: any, houseId: string) {
   if (!house || !house.name)
     return emptyHouse
 
-  const totalActive = await contract.totalActiveHouseAuctions(houseId.toString()).catch((e: any) => {
+  const totalActive = await contract.totalActiveHouseAuctions(houseId).catch((e: any) => {
     console.warn(`In totalActiveHouseAuctions of ${house.name}`, e.message)
   })
 
@@ -67,7 +67,7 @@ export async function getActiveHouses(provider: any, limit: number, from: string
     if (houseId.eq(0))
       break
 
-    const totalActive = await contract.totalActiveHouseAuctions(houseId.toString()).catch((e: any) => {
+    const totalActive = await contract.totalActiveHouseAuctions(houseId).catch((e: any) => {
       console.warn(`In totalActiveHouseAuctions`, e.message)
     })
 
@@ -147,7 +147,7 @@ export async function getRankedHouses(provider: any, limit: number, from: string
       console.warn(`In contract.houses`, e.message)
     })
 
-    const totalActive = await contract.totalActiveHouseAuctions(houseId.toString()).catch((e: any) => {
+    const totalActive = await contract.totalActiveHouseAuctions(houseId).catch((e: any) => {
       console.warn(`In totalActiveHouseAuctions of ${house.name}`, e.message)
     })
 

@@ -13,9 +13,9 @@ export default function Front(props: any) {
     <Container fluid>
       <Featured />
 
-      <ActiveHouses limit={4} />
-
       <ActiveAuctions limit={8} />
+
+      <ActiveHouses limit={4} />
 
       <RankedHouses limit={4} />
 
