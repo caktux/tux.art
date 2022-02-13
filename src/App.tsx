@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, NavLink, Route } from 'react-router-dom'
 
 import Nav from 'react-bootstrap/Nav'
-import Alert from 'react-bootstrap/Alert'
+// import Alert from 'react-bootstrap/Alert'
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 
@@ -41,7 +41,7 @@ function App() {
   const [ address, setAddress ] = useState('...')
   const [ addressBalance, setAddressBalance ] = useState('0 Ξ')
 
-  const [ dismissed, setDismissed ] = useState(localStorage.getItem('dismissed'))
+  // const [ dismissed, setDismissed ] = useState(localStorage.getItem('dismissed'))
 
   const theme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'darkly'
 
@@ -146,16 +146,17 @@ function App() {
         </Container>
       </Navbar>
       <div className={`my-4 theme-${theme}`}>
-        { !dismissed &&
-          <Container fluid className='mb-4'>
-            <Alert variant='info' className='text-center' dismissible
-                   onClose={() => {
-                     setDismissed('ya')
-                     localStorage.setItem('dismissed', 'got it')
-                   }} >
-              Tux is a decentralized and experimental NFT platform. Use at your own risk.
-            </Alert>
-          </Container>
+        {
+          // !dismissed &&
+          // <Container fluid className='mb-4'>
+          //   <Alert variant='info' className='text-center' dismissible
+          //          onClose={() => {
+          //            setDismissed('ya')
+          //            localStorage.setItem('dismissed', 'got it')
+          //          }} >
+          //     Tux is a decentralized and experimental NFT platform. Use at your own risk.
+          //   </Alert>
+          // </Container>
         }
         <Switch>
           <Route exact path='/'>
