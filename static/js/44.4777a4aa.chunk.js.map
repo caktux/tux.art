@@ -1,1 +1,0 @@
-{"version":3,"sources":["css/Solar.tsx"],"names":["Solar"],"mappings":"4GAAA,+BAMeA,UAFS,kBAAM","file":"static/js/44.4777a4aa.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/solar/bootstrap.min.css'\n\nconst Solar: React.FC = () => <></>\n\nexport default Solar\n"],"sourceRoot":""}

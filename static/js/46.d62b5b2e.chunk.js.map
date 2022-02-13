@@ -1,0 +1,1 @@
+{"version":3,"sources":["css/United.tsx"],"names":["United"],"mappings":"4GAAA,+BAMeA,UAFU,kBAAM","file":"static/js/46.d62b5b2e.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/united/bootstrap.min.css'\n\nconst United: React.FC = () => <></>\n\nexport default United\n"],"sourceRoot":""}

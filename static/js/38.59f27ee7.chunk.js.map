@@ -1,1 +1,0 @@
-{"version":3,"sources":["css/Lux.tsx"],"names":["Lux"],"mappings":"4GAAA,+BAMeA,UAFO,kBAAM","file":"static/js/38.59f27ee7.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/lux/bootstrap.min.css'\n\nconst Lux: React.FC = () => <></>\n\nexport default Lux\n"],"sourceRoot":""}
