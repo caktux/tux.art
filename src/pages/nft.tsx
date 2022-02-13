@@ -574,7 +574,7 @@ export default function FullNFT(props: any) {
               </div>
             </Card.Body>
 
-            { loaded && auction.created.toNumber() > 0 &&
+            { loaded && auction.created.gt(0) &&
               <Card.Footer className='text-muted text-end'>
                 Listed on { new Date(auction.created.toNumber() * 1000).toLocaleString() }{' '}
                 for {
@@ -622,6 +622,17 @@ export default function FullNFT(props: any) {
                 </div>
               </Card.Footer>
             }
+
+            <Card.Footer>
+              <ListGroup>
+                <ListGroup.Item key='rarible' className='text-muted'>
+                  <a href={`https://rarible.com/token/${params.contract}:${params.tokenId}`} target='blank'>View on Rarible</a>
+                </ListGroup.Item>
+                <ListGroup.Item key='etherscan' className='text-muted'>
+                  <a href={`https://etherscan.io/token/${params.contract}?a=${params.tokenId}`} target='blank'>View on Etherscan</a>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card.Footer>
 
             <Card.Footer>
               <p className='lead'>
