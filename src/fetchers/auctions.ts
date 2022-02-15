@@ -24,7 +24,9 @@ export async function getTokenAuction(provider: any, params: any) {
     console.warn(`In contract.auctions of ${params.contract}:${params.tokenId}`, e.message)
   })
 
-  const auctionWithID = {id: auctionId.toString(), ...auction}
+  const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
+
+  const auctionWithID = {id: auctionId.toString(), ownedBy: ownedBy, ...auction}
 
   return auctionWithID
 }
