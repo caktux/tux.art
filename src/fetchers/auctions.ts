@@ -24,9 +24,7 @@ export async function getTokenAuction(provider: any, params: any) {
     console.warn(`In contract.auctions of ${params.contract}:${params.tokenId}`, e.message)
   })
 
-  const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
-
-  const auctionWithID = {id: auctionId.toString(), ownedBy: ownedBy, ...auction}
+  const auctionWithID = {id: auctionId.toString(), ...auction}
 
   return auctionWithID
 }
@@ -55,9 +53,7 @@ export async function getActiveHouseAuctions(provider: any, house: any, limit: n
       console.warn(`In contract.auctions of ${house.name}`, e.message)
     })
 
-    const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
-
-    const auctionWithID = {id: auctionIDs[i].toString(), ownedBy: ownedBy, ...auction}
+    const auctionWithID = {id: auctionIDs[i].toString(), ...auction}
 
     if (auction.approved)
       auctions.push(auctionWithID)
@@ -94,9 +90,7 @@ export async function getActiveAuctions(provider: any, limit: number, from: stri
       console.warn(`In contract.auctions`, e.message)
     })
 
-    const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
-
-    const auctionWithID = {id: auctionIDs[i].toString(), ownedBy: ownedBy, ...auction}
+    const auctionWithID = {id: auctionIDs[i].toString(), ...auction}
 
     if (auction.approved)
       auctions.push(auctionWithID)
@@ -143,9 +137,7 @@ export async function getTopAuctions(provider: any, limit: number, from: string)
       if (!auction.approved || (auction.firstBidTime.gt(0) && auction.firstBidTime.mul(1000).add(auction.duration.mul(1000)).lte(Date.now())))
         continue
 
-      const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
-
-      const auctionWithID = {id: auctionIDs[a].toString(), ownedBy: ownedBy, ...auction}
+      const auctionWithID = {id: auctionIDs[a].toString(), ...auction}
 
       auctions.push(auctionWithID)
       break
@@ -173,9 +165,7 @@ export async function getSellerAuctions(provider: any, creator: string, limit: n
       console.warn(`In contract.auctions`, e.message)
     })
 
-    const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
-
-    const auctionWithID = {id: auctionIDs[i].toString(), ownedBy: ownedBy, ...auction}
+    const auctionWithID = {id: auctionIDs[i].toString(), ...auction}
 
     if (auction.approved)
       auctions.push(auctionWithID)
@@ -209,9 +199,7 @@ export async function getBidderAuctions(provider: any, bidder: string, limit: nu
       console.warn(`In contract.auctions`, e.message)
     })
 
-    const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
-
-    const auctionWithID = {id: auctionIDs[i].toString(), ownedBy: ownedBy, ...auction}
+    const auctionWithID = {id: auctionIDs[i].toString(), ...auction}
 
     if (auction.approved)
       auctions.push(auctionWithID)
@@ -248,12 +236,10 @@ export async function getPreviousAuctions(provider: any, params: any) {
       console.warn(`In contract.auctions of ${auctionIDs[i]}`, e.message)
     })
 
-    const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
     const wonBy = auction.amount.gt(0) ? await shortAddress(auction.bidder, provider) : ''
 
     const auctionWithID = {
       id: auctionIDs[i].toString(),
-      ownedBy: ownedBy,
       wonBy: wonBy,
       ...auction
     }
@@ -282,9 +268,7 @@ export async function getHouseQueue(provider: any, house: any, limit: number, of
       console.warn(`In contract.auctions`, e.message)
     })
 
-    const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
-
-    const auctionWithID = {id: auctionIDs[i].toString(), ownedBy: ownedBy, ...auction}
+    const auctionWithID = {id: auctionIDs[i].toString(), ...auction}
 
     auctions.push(auctionWithID)
 

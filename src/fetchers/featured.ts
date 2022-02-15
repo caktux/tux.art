@@ -3,7 +3,6 @@ import { ethers } from 'ethers'
 import { Auctions } from '../abi/Auctions'
 import { TuxERC20 } from '../abi/TuxERC20'
 import { AUCTIONS, TUXTOKEN } from '../constants/contracts'
-import { shortAddress } from '../utils/nfts'
 
 
 export async function getFeaturedContains(provider: any, auctionId: string) {
@@ -45,11 +44,9 @@ export async function getFeatured(provider: any) {
   const price = await contract.getFeaturedPrice(featured).catch((e: any) => {
     console.warn(`In getFeaturedPrice`, e.message)
   })
-  const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
 
   const auctionWithID = {
     id: featured.toString(),
-    ownedBy: ownedBy,
     featuredPrice: price,
     ...auction
   }
@@ -85,11 +82,8 @@ export async function getFeaturedQueue(provider: any, limit: number, from: strin
       console.warn(`In getFeaturedPrice`, e.message)
     })
 
-    const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
-
     const auctionWithID = {
       id: auctionIDs[i].toString(),
-      ownedBy: ownedBy,
       featuredPrice: price,
       ...auction
     }
