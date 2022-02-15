@@ -45,32 +45,17 @@ function App() {
 
   const theme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'darkly'
 
-  const connectWallet = (value: any) => {
-    wallet.connect(value)
-    localStorage.setItem('WALLET_CONNECTED', value)
-
-    if (theme !== 'darkly') {
-      localStorage.removeItem('theme')
-      localStorage.setItem('theme', theme || '')
-    }
-  }
-
-  const resetWallet = () => {
-    wallet.reset()
-    localStorage.setItem('WALLET_CONNECTED', 'disconnected')
-  }
-
   useEffect(() => {
-    const connectedId = localStorage.getItem('WALLET_CONNECTED')
-
-    if (wallet.status === 'disconnected' && connectedId !== null)
-      wallet.connect(connectedId)
-
     const longAddress: string = wallet.account || ''
 
     if (wallet.status === 'connected') {
       const getAddress = async () => {
         setAddress(await shortAddress(longAddress, provider))
+
+        if (theme !== 'darkly') {
+          localStorage.removeItem('theme')
+          localStorage.setItem('theme', theme || '')
+        }
       }
 
       if (address === '...')
@@ -88,6 +73,7 @@ function App() {
         )
     }
   }, [
+    theme,
     wallet,
     address,
     setAddress,
@@ -136,7 +122,7 @@ function App() {
                 </NavLink>
               }
               { wallet.status !== 'connected' &&
-                <Nav.Link className='px-3' onClick={() => connectWallet('injected')}>
+                <Nav.Link className='px-3' onClick={() => wallet.connect('injected')}>
                   Connect
                 </Nav.Link>
               }
@@ -187,7 +173,7 @@ function App() {
             <HouseQueue limit={12} />
           </Route>
           <Route path='/account/:tab?'>
-            <Account resetWallet={resetWallet} limit={4} />
+            <Account limit={4} />
           </Route>
           <Route path='/address/:address/:tab?'>
             <Address limit={4} />
@@ -210,6 +196,7 @@ function App() {
 export default function Index() {
   return (
     <UseWalletProvider
+      autoConnect
       connectors={{
         injected: {
           chainId: [1, 1337]

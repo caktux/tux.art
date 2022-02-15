@@ -46,6 +46,7 @@ import { fetchWithTimeout } from '../utils/ipfs'
 
 
 export default function Account(props: any) {
+  const wallet = useWallet()
   const { account, ethereum } = useWallet()
   const { ipfs, ipfsHost } = useIPFS()
   const { provider } = useEthereum()
@@ -437,7 +438,7 @@ export default function Account(props: any) {
             }
           </span>
           { account &&
-            <Button className='account-button' onClick={() => props.resetWallet()}>Disconnect</Button>
+            <Button className='account-button' onClick={() => wallet.reset()}>Disconnect</Button>
           }
         </Col>
       </Row>
