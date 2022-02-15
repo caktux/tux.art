@@ -1,0 +1,1 @@
+{"version":3,"sources":["css/Superhero.tsx"],"names":["Superhero"],"mappings":"4GAAA,+BAMeA,UAFa,kBAAM","file":"static/js/45.92254f2c.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/superhero/bootstrap.min.css'\n\nconst Superhero: React.FC = () => <></>\n\nexport default Superhero\n"],"sourceRoot":""}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["css/Darkly.tsx"],"names":["Darkly"],"mappings":"4GAAA,+BAMeA,UAFU,kBAAM","file":"static/js/35.e56aaf82.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/darkly/bootstrap.min.css'\n\nconst Darkly: React.FC = () => <></>\n\nexport default Darkly\n"],"sourceRoot":""}

@@ -1,2 +1,0 @@
-(this["webpackJsonptux.art"]=this["webpackJsonptux.art"]||[]).push([[43],{1803:function(t,n,r){"use strict";r.r(n);r(1),r(1264);var s=r(0);n.default=function(){return Object(s.jsx)(s.Fragment,{})}}}]);
-//# sourceMappingURL=43.ceb2e8ce.chunk.js.map

@@ -1,0 +1,1 @@
+{"version":3,"sources":["css/Journal.tsx"],"names":["Journal"],"mappings":"4GAAA,+BAMeA,UAFW,kBAAM","file":"static/js/36.2504e67a.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/journal/bootstrap.min.css'\n\nconst Journal: React.FC = () => <></>\n\nexport default Journal\n"],"sourceRoot":""}
