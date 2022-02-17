@@ -2,7 +2,6 @@
 import { ethers } from 'ethers'
 import { Auctions } from '../abi/Auctions'
 import { AUCTIONS } from '../constants/contracts'
-import { shortAddress } from '../utils/nfts'
 
 
 export async function getRankedCollectors(provider: any, limit: number, from: string) {
@@ -34,10 +33,7 @@ export async function getRankedCollectors(provider: any, limit: number, from: st
       console.warn(`In contract.collectorStats`, e.message)
     })
 
-    const short = await shortAddress(address, provider)
     const collector = {
-      rank: i,
-      shortAddress: short,
       address: address,
       bids: collectorStats.bids.toNumber(),
       sales: collectorStats.sales.toNumber(),

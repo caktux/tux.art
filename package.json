@@ -4,9 +4,12 @@
   "private": true,
   "homepage": "https://caktux.github.io/tux.art",
   "dependencies": {
+    "@apollo/client": "^3.5.9",
     "@restart/ui": "^1.0.1",
+    "apollo-link-timeout": "^4.0.0",
     "bootswatch": "^5.1.3",
     "ethers": "^5.5.4",
+    "graphql": "^16.3.0",
     "ipfs-http-client": "^56.0.1",
     "lodash": "^4.17.21",
     "mime-types": "^2.1.33",

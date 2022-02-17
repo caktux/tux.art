@@ -26,9 +26,17 @@ export async function getNextFeaturedTime(provider: any) {
   return nextFeaturedTime ? nextFeaturedTime.toNumber() : 0
 }
 
-export async function getFeatured(provider: any) {
+export async function getFeatured(provider: any, front=false) {
   const contract = new ethers.Contract(TUXTOKEN, TuxERC20, provider)
   const auctionsContract = new ethers.Contract(AUCTIONS, Auctions, provider)
+
+  if (front) {
+    const nextFeaturedTime = await contract.getNextFeaturedTime().catch((e: any) => {
+      console.warn('In getNextFeaturedTime', e.message)
+    })
+    if (nextFeaturedTime.mul(1000).lte(Date.now() - 86400))
+      return null
+  }
 
   const featured = await contract.featured().catch((e: any) => {
     console.warn('In featured', e.message)
@@ -41,13 +49,13 @@ export async function getFeatured(provider: any) {
   if (!auction || auction.tokenId.eq(0))
     return null
 
-  const price = await contract.getFeaturedPrice(featured).catch((e: any) => {
-    console.warn(`In getFeaturedPrice`, e.message)
-  })
+  // const price = await contract.getFeaturedPrice(featured).catch((e: any) => {
+  //   console.warn(`In getFeaturedPrice`, e.message)
+  // })
 
   const auctionWithID = {
     id: featured.toString(),
-    featuredPrice: price,
+    // featuredPrice: price,
     ...auction
   }
 

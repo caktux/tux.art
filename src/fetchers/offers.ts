@@ -2,7 +2,6 @@
 import { ethers } from 'ethers'
 import { Auctions } from '../abi/Auctions'
 import { AUCTIONS } from '../constants/contracts'
-import { shortAddress } from '../utils/nfts'
 
 
 export async function getTokenOffers(provider: any, params: any) {
@@ -22,10 +21,8 @@ export async function getTokenOffers(provider: any, params: any) {
     const offer = await contract.offers(offerIDs[i].toString()).catch((e: any) => {
       console.warn(`In contract.offers of ${offerIDs[i]}`, e.message)
     })
-    const from = offer.from ? await shortAddress(offer.from, provider) : ''
     const offerWithID = {
       id: offerIDs[i].toString(),
-      shortFrom: from,
       ...offer
     }
     offers.push(offerWithID)

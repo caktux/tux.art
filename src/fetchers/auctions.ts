@@ -2,7 +2,6 @@
 import { ethers } from 'ethers'
 import { Auctions } from '../abi/Auctions'
 import { AUCTIONS } from '../constants/contracts'
-import { shortAddress } from '../utils/nfts'
 
 import sortBy from 'lodash/sortBy'
 
@@ -24,9 +23,7 @@ export async function getTokenAuction(provider: any, params: any) {
     console.warn(`In contract.auctions of ${params.contract}:${params.tokenId}`, e.message)
   })
 
-  const ownedBy = auction.tokenOwner ? await shortAddress(auction.tokenOwner, provider) : ''
-
-  const auctionWithID = {id: auctionId.toString(), ownedBy: ownedBy, ...auction}
+  const auctionWithID = {id: auctionId.toString(), ...auction}
 
   return auctionWithID
 }
@@ -38,14 +35,14 @@ export async function getActiveHouseAuctions(provider: any, house: any, limit: n
   let auctions = [] as any
 
   if (!house.activeAuctions || house.activeAuctions.eq(0))
-    return auctions
+    return [0, auctions]
 
   const auctionIDs = await contract.getHouseAuctions(house.id, from, limit).catch((e: any) => {
     console.warn(`In getHouseAuctions`, e.message)
   })
 
   if (!auctionIDs)
-    return auctions
+    return [0, auctions]
 
   for (let i = 0; i < limit; i++) {
     if (auctionIDs[i].eq(0))
@@ -61,7 +58,7 @@ export async function getActiveHouseAuctions(provider: any, house: any, limit: n
       auctions.push(auctionWithID)
   }
 
-  return [house.activeAuctions, auctions]
+  return [house.activeAuctions.toNumber(), auctions]
 }
 
 
@@ -238,11 +235,9 @@ export async function getPreviousAuctions(provider: any, params: any) {
       console.warn(`In contract.auctions of ${auctionIDs[i]}`, e.message)
     })
 
-    const wonBy = auction.amount.gt(0) ? await shortAddress(auction.bidder, provider) : ''
-
     const auctionWithID = {
       id: auctionIDs[i].toString(),
-      wonBy: wonBy,
+      wonBy: auction.amount.gt(0) ? auction.bidder : '',
       ...auction
     }
 

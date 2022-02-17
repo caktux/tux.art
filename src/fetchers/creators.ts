@@ -4,7 +4,6 @@ import { ERC721 } from '../abi/ERC721'
 import { Auctions } from '../abi/Auctions'
 import { AUCTIONS } from '../constants/contracts'
 import { getTokenAuction } from './auctions'
-import { shortAddress } from '../utils/nfts'
 
 
 export async function getRankedCreators(provider: any, limit: number, from: string) {
@@ -36,10 +35,7 @@ export async function getRankedCreators(provider: any, limit: number, from: stri
       console.warn(`In contract.creatorStats`, e.message)
     })
 
-    const short = await shortAddress(address, provider)
     const creator = {
-      rank: i,
-      shortAddress: short,
       address: address,
       bids: creatorStats.bids.toNumber(),
       sales: creatorStats.sales.toNumber(),

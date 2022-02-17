@@ -17,6 +17,7 @@ import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+import Address from './Address'
 import { LazyImg } from './LazyImg'
 
 import TokenAmount from 'token-amount'
@@ -247,19 +248,14 @@ export default function FeaturedItem(props: any) {
                 </Col>
               </Row>
 
-              { (token.props.createdBy || token.props.ownedBy ) ?
+              { (token.props.creator || token.props.owner ) ?
                 <Card.Footer className='text-muted'>
                   { token.props.creator &&
-                    <Link to={ `/address/${token.props.creator}` }>
-                      { token.props.createdBy }
-                    </Link>
+                    <Address address={token.props.creator} prefix={'Created by'} />
                   }
-                  { !token.props.creator &&
-                    token.props.createdBy }
-                  { !token.props.createdBy && token.props.owner &&
-                    <Link to={ `/address/${token.props.owner}` }>
-                      Owned by { token.props.ownedBy }
-                    </Link>
+                  { !token.props.creator && token.props.createdBy }
+                  { !token.props.creator && token.props.owner &&
+                    <Address address={token.props.owner} prefix={'Owned by'} />
                   }
                 </Card.Footer> :
                 <Placeholder as={Card.Footer} animation='wave'>

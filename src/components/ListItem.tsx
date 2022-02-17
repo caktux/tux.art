@@ -13,6 +13,7 @@ import Alert from 'react-bootstrap/Alert'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 
+import Address from './Address'
 import { LazyImg } from './LazyImg'
 
 import { fetchMetadata, loadToken } from '../fetchers/metadata'
@@ -164,19 +165,14 @@ export default function ListItem(props: any) {
               <Placeholder xs={8} bg='light' />
             </Placeholder> }
         </Card.Body>
-        { (token.props.createdBy || token.props.ownedBy ) ?
+        { (token.props.creator || token.props.owner ) ?
           <Card.Footer className='text-muted'>
             { token.props.creator &&
-              <Link to={ `/address/${token.props.creator}` }>
-                { token.props.createdBy }
-              </Link>
+              <Address address={token.props.creator} prefix={'Created by'} />
             }
-            { !token.props.creator &&
-              token.props.createdBy }
-            { !token.props.createdBy && token.props.owner &&
-              <Link to={ `/address/${token.props.owner}` }>
-                Owned by { token.props.ownedBy }
-              </Link>
+            { !token.props.creator && token.props.createdBy }
+            { !token.props.creator && token.props.owner &&
+              <Address address={token.props.owner} prefix={'Owned by'} />
             }
           </Card.Footer> :
           <Placeholder as={Card.Footer} animation='wave'>

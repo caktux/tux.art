@@ -17,6 +17,7 @@ import AuctionItem from '../components/AuctionItem'
 import { emptyHouse } from '../utils/nfts'
 import { getHouse } from '../fetchers/houses'
 import { getActiveHouseAuctions } from '../fetchers/auctions'
+import { getActiveHouseAuctionsGraph } from '../fetchers/auctions-graph'
 
 
 export default function House(props: any) {
@@ -29,6 +30,7 @@ export default function House(props: any) {
   const [ fetched, setFetched ] = useState(false)
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
   const [ houseFetched, setHouseFetched ] = useState(false)
   const [ houseLoaded, setHouseLoaded ] = useState(false)
   const [ house, setHouse ] = useState(emptyHouse)
@@ -87,14 +89,27 @@ export default function House(props: any) {
 
   useEffect(() => {
     const fetchAuctions = async () => {
-      if (fetched || !houseLoaded || !mounted.current)
+      if (fetched || (!graphAvailable && !houseLoaded) || !mounted.current)
         return
       setFetched(true)
 
-      const [total, auctions] = await getActiveHouseAuctions(provider, house, props.limit, offsets[offset])
+      let total = 0
+      let auctions = [] as any
+      let timedOut = false
+
+      if (graphAvailable)
+        [total, auctions, timedOut] = await getActiveHouseAuctionsGraph(params.houseId, props.limit, offset)
+      else
+        [total, auctions] = await getActiveHouseAuctions(provider, house, props.limit, offsets[offset])
 
       if (!mounted.current)
         return
+
+      if (timedOut) {
+        setGraphAvailable(false)
+        setFetched(false)
+        return
+      }
 
       if (!auctions || auctions.length === 0) {
         setLoaded(true)

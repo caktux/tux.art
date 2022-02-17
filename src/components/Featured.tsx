@@ -3,14 +3,13 @@ import { useState, useEffect, useRef } from 'react'
 import { useEthereum } from '../hooks/ethereum'
 
 import Container from 'react-bootstrap/Container'
-// import Spinner from 'react-bootstrap/Spinner'
-// import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import { getFeatured } from '../fetchers/featured'
 import { getActiveAuctions } from '../fetchers/auctions'
+import { getActiveAuctionsGraph } from '../fetchers/auctions-graph'
 import FeaturedItem from './FeaturedItem'
 
 import { emptyAuction } from '../utils/nfts'
@@ -22,8 +21,7 @@ export const Featured = (props: any) => {
   const [ loaded, setLoaded ] = useState(false)
   const [ fetched, setFetched ] = useState(false)
   const [ auction, setAuction ] = useState(emptyAuction)
-  // const [ fetchedTime, setFetchedTime ] = useState(false)
-  // const [ nextFeaturedTime, setNextFeaturedTime ] = useState(0)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
 
   const mounted = useRef(true)
 
@@ -34,7 +32,21 @@ export const Featured = (props: any) => {
 
     if (!auction) {
       const fetchLatestAuction = async () => {
-        const [total, auctions] = await getActiveAuctions(provider, 1, '0')
+        let total = 0
+        let auctions = []
+        let timedOut = false
+        if (graphAvailable)
+          [total, auctions, timedOut] = await getActiveAuctionsGraph(1, 0)
+        else
+          [total, auctions] = await getActiveAuctions(provider, 1, '0')
+
+        if (!mounted.current)
+          return
+
+        if (timedOut) {
+          [total, auctions] = await getActiveAuctions(provider, 1, '0')
+          setGraphAvailable(false)
+        }
 
         if (!mounted.current)
           return
@@ -70,7 +82,7 @@ export const Featured = (props: any) => {
         return
       setFetched(true)
 
-      const auction = await getFeatured(provider)
+      const auction = await getFeatured(provider, true)
 
       if (!mounted.current)
         return
@@ -79,22 +91,6 @@ export const Featured = (props: any) => {
     }
     fetchAuction()
   })
-
-  // useEffect(() => {
-  //   const fetchNextFeaturedTime = async () => {
-  //     if (fetchedTime || !mounted.current)
-  //       return
-  //     setFetchedTime(true)
-  //
-  //     const nextFeaturedTime = await getNextFeaturedTime(provider)
-  //
-  //     if (!mounted.current)
-  //       return
-  //
-  //     setNextFeaturedTime(nextFeaturedTime)
-  //   }
-  //   fetchNextFeaturedTime()
-  // })
 
   useEffect(() => {
     return () => {
@@ -113,14 +109,6 @@ export const Featured = (props: any) => {
               address={auction.tokenContract}
               loaded={loaded} />
 
-            {
-              // !loaded &&
-              // <Container fluid>
-              //   <Alert variant='dark' className='text-center'>
-              //     <Spinner animation='grow' role='status' />
-              //   </Alert>
-              // </Container>
-            }
             { loaded && !auction &&
               <Container fluid>
                 <Alert variant='dark' className='text-center'>
@@ -131,16 +119,6 @@ export const Featured = (props: any) => {
 
         </Col>
       </Row>
-
-      {
-      // <Alert variant='dark' className='text-center text-muted'>
-      //   { nextFeaturedTime > 0 ?
-      //     <>
-      //       Next featured auction after { new Date(nextFeaturedTime * 1000).toLocaleString() }
-      //     </> : <Spinner animation='grow' role='status' />
-      //   }
-      // </Alert>
-      }
     </>
   )
 }

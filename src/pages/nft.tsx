@@ -18,6 +18,7 @@ import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+import Address from '../components/Address'
 import { LazyImg } from '../components/LazyImg'
 // import { useGLTF } from "@react-three/drei"
 
@@ -380,25 +381,20 @@ export default function FullNFT(props: any) {
                 </Placeholder>
               }
             </Card.Body>
-            { token.props.createdBy ?
+            { token.props.creator || token.props.createdBy ?
               <Card.Footer className='text-muted'>
                 <Row xs={2}>
                   <Col>
                   { token.props.creator ?
-                    <Link to={ `/address/${token.props.creator}` }>
-                      { token.props.createdBy }
-                    </Link> :
+                    <Address address={token.props.creator} prefix='Created by' /> :
                     token.props.createdBy
                   }
                   </Col>
                   <Col className='text-end'>
                   { token.props.owner !== AUCTIONS ?
-                    <Link to={ `/address/${token.props.owner}` }>
-                      Owned by { token.props.ownedBy }
-                    </Link> : ( auction.tokenOwner ?
-                    <Link to={ `/address/${auction.tokenOwner}` }>
-                      Owned by { auction.ownedBy }
-                    </Link> : '')
+                    <Address address={token.props.owner} prefix='Owned by' /> :
+                    auction.tokenOwner ?
+                    <Address address={auction.tokenOwner} prefix='Owned by' /> : ''
                   }
                   </Col>
                 </Row>
@@ -585,9 +581,7 @@ export default function FullNFT(props: any) {
                   })
                 }
                 { auction.tokenOwner ?
-                <Link to={ `/address/${auction.tokenOwner}` }>
-                  {' '} by { auction.ownedBy }
-                </Link> : '' }
+                  <Address address={auction.tokenOwner} prefix=' by' /> : '' }
               </Card.Footer>
             }
 
@@ -647,9 +641,7 @@ export default function FullNFT(props: any) {
                     <ListGroup.Item key={`bid-${index}`}>
                       <Row>
                         <Col xs={3} className='text-muted'>
-                          <Link to={`/address/${bid.bidder}`}>
-                            { bid.shortAddress }
-                          </Link>
+                          <Address address={bid.bidder} />
                         </Col>
                         <Col xs={6} className='text-muted'>
                           { new Date(bid.timestamp.toNumber() * 1000).toLocaleString() }
@@ -681,12 +673,8 @@ export default function FullNFT(props: any) {
                         <Row>
                           <Col xs={3} className='text-muted'>
                             { auction.approved && auction.amount.gt(0) ?
-                              <Link to={`/address/${auction.bidder}`}>
-                                { auction.wonBy }
-                              </Link> :
-                              <Link to={`/address/${auction.tokenOwner}`}>
-                                { auction.ownedBy }
-                              </Link>
+                              <Address address={auction.bidder} /> :
+                              <Address address={auction.tokenOwner} />
                             }
                           </Col>
                           <Col xs={5} className='text-muted'>
@@ -730,9 +718,7 @@ export default function FullNFT(props: any) {
                         <Row className='vertical-align' xs={1} md={2} lg={4}>
                           <Col xs={3} className='text-muted'>
                             { offer.amount.gt(0) &&
-                              <Link to={`/address/${offer.from}`}>
-                                { offer.shortFrom }
-                              </Link>
+                              <Address address={offer.from} />
                             }
                           </Col>
                           <Col xs={5} className='text-muted'>

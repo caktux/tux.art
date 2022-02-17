@@ -15,7 +15,8 @@ import House from '../components/House'
 
 import { CreateHouseModal } from '../components/modals/CreateHouseModal'
 
-import { getRankedHouses } from '../fetchers/houses'
+import { getActiveHouses } from '../fetchers/houses'
+import { getActiveHousesGraph } from '../fetchers/houses-graph'
 
 
 export default function Houses(props: any) {
@@ -29,6 +30,7 @@ export default function Houses(props: any) {
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
   const [ showCreateHouse, setShowCreateHouse ] = useState(false)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
 
   const handleShowCreateHouse = () => setShowCreateHouse(true)
   const handleCloseCreateHouse = () => setShowCreateHouse(false)
@@ -72,7 +74,22 @@ export default function Houses(props: any) {
         return
       setFetched(true)
 
-      let [total, houses] = await getRankedHouses(provider, props.limit, offsets[offset])
+      let total = 0
+      let houses = []
+      let timedOut = false
+
+      if (graphAvailable)
+        [total, houses, timedOut] = await getActiveHousesGraph(props.limit, offset)
+      else
+        [total, houses] = await getActiveHouses(provider, props.limit, offsets[offset])
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        [total, houses] = await getActiveHouses(provider, props.limit, offsets[offset])
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return

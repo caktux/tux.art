@@ -139,6 +139,8 @@ export function LazyImg (props: any) {
                 console.warn(`Gave up on ${src}`)
                 return
               }
+              if (!mounted.current)
+                return
               setErrored(errored + 1)
               setTimedOut(false)
               setStarted(false)

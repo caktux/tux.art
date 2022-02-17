@@ -12,14 +12,10 @@ export default function Front(props: any) {
   return (
     <Container fluid>
       <Featured />
-
       <ActiveAuctions limit={8} />
-
       <ActiveHouses limit={4} />
-
-      <RankedHouses limit={4} />
-
       <RankedAuctions limit={8} />
+      <RankedHouses limit={4} />
     </Container>
   )
 }

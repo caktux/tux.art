@@ -14,6 +14,7 @@ import Col from 'react-bootstrap/Col'
 import House from '../components/House'
 
 import { getActiveHouses } from '../fetchers/houses'
+import { getActiveHousesGraph } from '../fetchers/houses-graph'
 
 
 export const ActiveHouses = (props: any) => {
@@ -25,6 +26,7 @@ export const ActiveHouses = (props: any) => {
   const [ fetched, setFetched ] = useState(false)
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
   const [ houses, setHouses ] = useState([])
 
   const mounted = useRef(true)
@@ -68,7 +70,22 @@ export const ActiveHouses = (props: any) => {
         return
       setFetched(true)
 
-      const [total, houses] = await getActiveHouses(provider, props.limit, offsets[offset], 2)
+      let total = 0
+      let houses = []
+      let timedOut = false
+
+      if (graphAvailable)
+        [total, houses, timedOut] = await getActiveHousesGraph(props.limit, offset, 2)
+      else
+        [total, houses] = await getActiveHouses(provider, props.limit, offsets[offset], 2)
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        [total, houses] = await getActiveHouses(provider, props.limit, offsets[offset], 2)
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return

@@ -21,12 +21,15 @@ import Col from 'react-bootstrap/Col'
 
 import { CreateHouseModal } from './modals/CreateHouseModal'
 
-import { getRankedHouses } from '../fetchers/houses'
+import Address from './Address'
 import TokenAmount from 'token-amount'
 
 import { ethers, Signer } from 'ethers'
 import { Auctions } from '../abi/Auctions'
 import { AUCTIONS } from '../constants/contracts'
+
+import { getRankedHouses } from '../fetchers/houses'
+import { getRankedHousesGraph } from '../fetchers/houses-graph'
 
 
 export const Houses = (props: any) => {
@@ -42,6 +45,7 @@ export const Houses = (props: any) => {
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
   const [ showCreateHouse, setShowCreateHouse ] = useState(false)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
 
   const handleShowCreateHouse = () => setShowCreateHouse(true)
   const handleCloseCreateHouse = () => setShowCreateHouse(false)
@@ -111,7 +115,22 @@ export const Houses = (props: any) => {
         return
       setFetched(true)
 
-      const [total, houses] = await getRankedHouses(provider, props.limit, offsets[offset], 0, true)
+      let total = 0
+      let houses = []
+      let timedOut = false
+
+      if (graphAvailable)
+        [total, houses, timedOut] = await getRankedHousesGraph(props.limit, offset, 0, true)
+      else
+        [total, houses] = await getRankedHouses(provider, props.limit, offsets[offset], 0, true)
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        [total, houses] = await getRankedHouses(provider, props.limit, offsets[offset], 0, true)
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return
@@ -180,6 +199,7 @@ export const Houses = (props: any) => {
                 <th>Name</th>
                 <th>Curator</th>
                 <th className='text-center'>Creators</th>
+                <th className='text-center'>Auctions</th>
                 <th className='text-end'>Fee</th>
                 <th className='text-center'>Pre-approved</th>
                 <th className='text-center'>Bids</th>
@@ -224,9 +244,9 @@ export const Houses = (props: any) => {
                       </Link>
                     </td>
                     <td>
-                      <Link to={ `/address/${house.curator}` } className='text-muted'>
-                        {house.shortCurator}
-                      </Link>
+                      <div className='text-muted'>
+                        <Address address={house.curator} />
+                      </div>
                     </td>
                     <td className='text-center'>
                       <OverlayTrigger
@@ -239,13 +259,13 @@ export const Houses = (props: any) => {
                             <Popover.Header as='h5'>Creators</Popover.Header>
                             <Popover.Body>
                               <ListGroup variant='flush'>
-                                { house.creators && house.creators.length > 0 &&
+                                { house.creators && // house.creators.length > 0 &&
                                   house.creators.map((creator: any, idx: number) => {
                                     return (
                                       <ListGroup.Item key={`creator-${house.id}-${creator.address}`}>
-                                        <Link to={ `/address/${creator.address}` } className='text-muted'>
-                                          {creator.shortAddress}
-                                        </Link>
+                                        <div className='text-muted'>
+                                          <Address address={creator.address} />
+                                        </div>
                                       </ListGroup.Item>
                                     )
                                   })
@@ -256,10 +276,13 @@ export const Houses = (props: any) => {
                         }>
                         {({ ref, ...triggerHandler }) => (
                           <Button size='sm' variant='secondary' ref={ref} {...triggerHandler} className='wr-3'>
-                            {house.creators.length}
+                            {house.creators ? house.creators.length : 'N/A'}
                           </Button>
                         )}
                       </OverlayTrigger>
+                    </td>
+                    <td className='text-center'>
+                      { house.activeAuctions }
                     </td>
                     <td className='text-end'>{house.fee} %</td>
                     <td className='text-center'>

@@ -2,7 +2,6 @@
 import { ethers } from 'ethers'
 import { Auctions } from '../abi/Auctions'
 import { AUCTIONS } from '../constants/contracts'
-import { shortAddress } from '../utils/nfts'
 
 
 export async function getAuctionBids(provider: any, auctionId: number) {
@@ -21,9 +20,7 @@ export async function getAuctionBids(provider: any, auctionId: number) {
       console.warn(`In contract.bids of ${auctionId}`, e.message)
     })
 
-    const newBid = {...bid, shortAddress: await shortAddress(bid.bidder, provider)}
-
-    bids.push(newBid)
+    bids.push(bid)
   }
 
   return bids

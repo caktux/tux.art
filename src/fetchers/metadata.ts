@@ -4,7 +4,6 @@ import { ERC721 } from '../abi/ERC721'
 import { KnownOrigin } from '../abi/KnownOrigin'
 import { MakersPlace } from '../abi/MakersPlace'
 import { getIpfsHash, fetchAndParse } from '../utils/ipfs'
-import { shortAddress } from '../utils/nfts'
 import { lookup } from 'mime-types'
 
 
@@ -73,11 +72,9 @@ const tokenToProps = async (token: any, provider: any) => {
 
   const previewUri = tokenPreviewURI(token)
 
-  const ownedBy = token.props.owner ? await shortAddress(token.props.owner, provider) : ''
+  let creator = token.props.creator || token.metadata.creator || token.metadata.artist || token.metadata.minter
 
-  const creator = token.props.creator || token.metadata.creator || token.metadata.artist || token.metadata.minter
-
-  let createdBy = creator ? await shortAddress(creator, provider) : ''
+  let createdBy = ''
   if (token.metadata.attributes && token.metadata.attributes.length > 0) { // MakersPlace...
     if (token.metadata.attributes[0].trait_type === 'Creator')
       createdBy = token.metadata.attributes[0].value
@@ -113,7 +110,7 @@ const tokenToProps = async (token: any, provider: any) => {
     uri: uri,
     previewUri: previewUri,
     owner: token.props.owner,
-    creator: token.props.creator,
+    creator: creator,
     loaded: false,
     mimeType: mimeType,
     isImage: mimeType && mimeType.slice(0, 5) === 'image',
@@ -127,7 +124,7 @@ const tokenToProps = async (token: any, provider: any) => {
     title: name,
     description: description,
     createdBy: createdBy ? `Created by ${createdBy}` : '',
-    ownedBy: ownedBy
+    // ownedBy: ownedBy
   }
 
   return token

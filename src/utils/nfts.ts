@@ -15,7 +15,6 @@ export const emptyHouse = {
   id: '',
   name: '',
   curator: '',
-  shortCurator: '',
   fee: 0,
   preApproved: false,
   bids: 0,

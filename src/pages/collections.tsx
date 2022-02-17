@@ -16,6 +16,7 @@ import TokenContract from '../components/TokenContract'
 import { CreateCollectionModal } from '../components/modals/CreateCollectionModal'
 
 import { getRankedContracts } from '../fetchers/contracts'
+import { getRankedContractsGraph } from '../fetchers/contracts-graph'
 import { ethers } from 'ethers'
 
 
@@ -32,6 +33,7 @@ export default function Collections(props: any) {
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
   const [ showCreateCollection, setShowCreateCollection ] = useState(false)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
 
   const handleShowCreateCollection = () => setShowCreateCollection(true)
   const handleCloseCreateCollection = () => setShowCreateCollection(false)
@@ -82,7 +84,22 @@ export default function Collections(props: any) {
         return
       setFetched(true)
 
-      const [total, collections] = await getRankedContracts(provider, props.limit, offsets[offset])
+      let total = 0
+      let collections = []
+      let timedOut = false
+
+      if (graphAvailable)
+        [total, collections, timedOut] = await getRankedContractsGraph(props.limit, offset)
+      else
+        [total, collections] = await getRankedContracts(provider, props.limit, offsets[offset])
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        [total, collections] = await getRankedContracts(provider, props.limit, offsets[offset])
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return

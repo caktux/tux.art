@@ -18,6 +18,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import { getRankedContracts } from '../fetchers/contracts'
+import { getRankedContractsGraph } from '../fetchers/contracts-graph'
 import TokenAmount from 'token-amount'
 
 import { ethers, Signer } from 'ethers'
@@ -37,6 +38,7 @@ export const Collections = (props: any) => {
   const [ collections, setCollections ] = useState([])
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
 
   const mounted = useRef(true)
   const tableRef = useRef(null as any)
@@ -103,7 +105,22 @@ export const Collections = (props: any) => {
         return
       setFetched(true)
 
-      const [total, collections] = await getRankedContracts(provider, props.limit, offsets[offset])
+      let total = 0
+      let collections = []
+      let timedOut = false
+
+      if (graphAvailable)
+        [total, collections, timedOut] = await getRankedContractsGraph(props.limit, offset)
+      else
+        [total, collections] = await getRankedContracts(provider, props.limit, offsets[offset])
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        [total, collections] = await getRankedContracts(provider, props.limit, offsets[offset])
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return
@@ -204,8 +221,8 @@ export const Collections = (props: any) => {
                       {collection.name}
                     </Link>
                   </td>
-                  <td className='text-center'>{collection.bids.toNumber()}</td>
-                  <td className='text-center'>{collection.sales.toNumber()}</td>
+                  <td className='text-center'>{collection.bids}</td>
+                  <td className='text-center'>{collection.sales}</td>
                   <td className='text-end'>
                     {
                       TokenAmount.format(collection.total, 18, {

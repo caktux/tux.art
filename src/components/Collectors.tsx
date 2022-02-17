@@ -3,8 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 import { useEthereum } from '../hooks/ethereum'
 import { useWallet } from 'use-wallet'
 
-import { Link } from 'react-router-dom'
-
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Container from 'react-bootstrap/Container'
@@ -17,12 +15,15 @@ import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import { getRankedCollectors } from '../fetchers/collectors'
+import Address from './Address'
 import TokenAmount from 'token-amount'
 
 import { ethers, Signer } from 'ethers'
 import { Auctions } from '../abi/Auctions'
 import { AUCTIONS } from '../constants/contracts'
+
+import { getRankedCollectors } from '../fetchers/collectors'
+import { getRankedCollectorsGraph } from '../fetchers/collectors-graph'
 
 
 export const Collectors = (props: any) => {
@@ -37,6 +38,7 @@ export const Collectors = (props: any) => {
   const [ collectors, setCollectors ] = useState([])
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
 
   const mounted = useRef(true)
   const tableRef = useRef(null as any)
@@ -100,7 +102,22 @@ export const Collectors = (props: any) => {
         return
       setFetched(true)
 
-      const [total, collectors] = await getRankedCollectors(provider, props.limit, offsets[offset])
+      let total = 0
+      let collectors = []
+      let timedOut = false
+
+      if (graphAvailable)
+        [total, collectors, timedOut] = await getRankedCollectorsGraph(props.limit, offset)
+      else
+        [total, collectors] = await getRankedCollectors(provider, props.limit, offsets[offset])
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        [total, collectors] = await getRankedCollectors(provider, props.limit, offsets[offset])
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return
@@ -198,9 +215,7 @@ export const Collectors = (props: any) => {
                     </OverlayTrigger>
                   </td>
                   <td>
-                    <Link to={ `/address/${collector.address}` }>
-                      {collector.shortAddress}
-                    </Link>
+                    <Address address={collector.address} />
                   </td>
                   <td className='text-center'>{collector.bids}</td>
                   <td className='text-center'>{collector.sales}</td>

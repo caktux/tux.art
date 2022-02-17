@@ -3,8 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 import { useEthereum } from '../hooks/ethereum'
 import { useWallet } from 'use-wallet'
 
-import { Link } from 'react-router-dom'
-
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Container from 'react-bootstrap/Container'
@@ -18,6 +16,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import { getRankedCreators } from '../fetchers/creators'
+import { getRankedCreatorsGraph } from '../fetchers/creators-graph'
+import Address from '../components/Address'
 import TokenAmount from 'token-amount'
 
 import { ethers, Signer } from 'ethers'
@@ -37,6 +37,7 @@ export const Creators = (props: any) => {
   const [ creators, setCreators ] = useState([])
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
 
   const mounted = useRef(true)
   const tableRef = useRef(null as any)
@@ -100,7 +101,22 @@ export const Creators = (props: any) => {
         return
       setFetched(true)
 
-      const [total, creators] = await getRankedCreators(provider, props.limit, offsets[offset])
+      let total = 0
+      let creators = []
+      let timedOut = false
+
+      if (graphAvailable)
+        [total, creators, timedOut] = await getRankedCreatorsGraph(props.limit, offset)
+      else
+        [total, creators] = await getRankedCreators(provider, props.limit, offsets[offset])
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        [total, creators] = await getRankedCreators(provider, props.limit, offsets[offset])
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return
@@ -196,9 +212,7 @@ export const Creators = (props: any) => {
                     </OverlayTrigger>
                   </td>
                   <td>
-                    <Link to={ `/address/${creator.address}` }>
-                      {creator.shortAddress}
-                    </Link>
+                    <Address address={creator.address} />
                   </td>
                   <td className='text-center'>{creator.bids}</td>
                   <td className='text-center'>{creator.sales}</td>

@@ -14,6 +14,8 @@ import Col from 'react-bootstrap/Col'
 import AuctionItem from '../components/AuctionItem'
 
 import { getActiveAuctions } from '../fetchers/auctions'
+import { getNextFeaturedTime } from '../fetchers/featured'
+import { getActiveAuctionsGraph } from '../fetchers/auctions-graph'
 
 
 export const ActiveAuctions = (props: any) => {
@@ -25,6 +27,7 @@ export const ActiveAuctions = (props: any) => {
   const [ fetched, setFetched ] = useState(false)
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
   const [ auctions, setAuctions ] = useState([])
 
   const mounted = useRef(true)
@@ -62,10 +65,28 @@ export const ActiveAuctions = (props: any) => {
     const fetchAuctions = async () => {
       if (fetched || !mounted.current)
         return
-
       setFetched(true)
 
-      const [total, auctions] = await getActiveAuctions(provider, props.limit, offsets[offset])
+      let skipFirst = false
+      const nextFeaturedTime = await getNextFeaturedTime(provider)
+      if (nextFeaturedTime * 1000 <= Date.now() - 86400)
+        skipFirst = true
+
+      let total = 0
+      let auctions = []
+      let timedOut = false
+      if (graphAvailable)
+        [total, auctions, timedOut] = await getActiveAuctionsGraph(props.limit, offset + (skipFirst ? 1 : 0))
+      else
+        [total, auctions] = await getActiveAuctions(provider, props.limit, offsets[offset])
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        [total, auctions] = await getActiveAuctions(provider, props.limit, offsets[offset])
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return

@@ -15,6 +15,7 @@ import Col from 'react-bootstrap/Col'
 import AuctionItem from './AuctionItem'
 
 import { getActiveHouseAuctions } from '../fetchers/auctions'
+import { getActiveHouseAuctionsGraph } from '../fetchers/auctions-graph'
 
 
 export default function House(props: any) {
@@ -26,6 +27,7 @@ export default function House(props: any) {
   const [ fetched, setFetched ] = useState(false)
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
   const [ auctions, setAuctions ] = useState([])
 
   const mounted = useRef(true)
@@ -67,17 +69,33 @@ export default function House(props: any) {
     const fetchAuctions = async () => {
       if (!mounted.current)
         return
+
       if (fetched && !props.loaded) {
         setFetched(false)
         setAuctions([])
         return
       }
+
       if (fetched || !props.loaded)
         return
-
       setFetched(true)
 
-      const [total, auctions] = await getActiveHouseAuctions(provider, props.house, props.limit, offsets[offset])
+      let total = 0
+      let auctions = [] as any
+      let timedOut = false
+
+      if (graphAvailable)
+        [total, auctions, timedOut] = await getActiveHouseAuctionsGraph(props.house.id, props.limit, offset)
+      else
+        [total, auctions] = await getActiveHouseAuctions(provider, props.house, props.limit, offsets[offset])
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        [total, auctions] = await getActiveHouseAuctions(provider, props.house, props.limit, offsets[offset])
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return

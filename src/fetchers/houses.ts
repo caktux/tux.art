@@ -2,7 +2,7 @@
 import { ethers } from 'ethers'
 import { Auctions } from '../abi/Auctions'
 import { AUCTIONS } from '../constants/contracts'
-import { shortAddress, emptyHouse } from '../utils/nfts'
+import { emptyHouse } from '../utils/nfts'
 
 import sortBy from 'lodash/sortBy'
 
@@ -21,14 +21,11 @@ export async function getHouse(provider: any, houseId: string) {
     console.warn(`In totalActiveHouseAuctions of ${house.name}`, e.message)
   })
 
-  const shortCurator = await shortAddress(house.curator, provider)
-
   const newHouse = {
     id: houseId,
     name: house.name,
     rank: house.rank,
     curator: house.curator,
-    shortCurator: shortCurator,
     fee: house.fee / 100,
     preApproved: house.preApproved,
     bids: house.bids.toNumber(),
@@ -78,29 +75,24 @@ export async function getActiveHouses(provider: any, limit: number, from: string
       console.warn(`In contract.houses`, e.message)
     })
 
-    const shortCurator = await shortAddress(house.curator, provider)
-
-    const houseCreators = await contract.getHouseCreators(houseId).catch((e: any) => {
-      console.warn(`In getHouseCreators`, e.message)
-    })
-
-    let creators = []
-
-    for (const address of houseCreators) {
-      const shortCreator = await shortAddress(address, provider)
-      creators.push({
-        address: address,
-        shortAddress: shortCreator
-      })
-    }
+    // const houseCreators = await contract.getHouseCreators(houseId).catch((e: any) => {
+    //   console.warn(`In getHouseCreators`, e.message)
+    // })
+    //
+    // let creators = []
+    //
+    // for (const address of houseCreators) {
+    //   creators.push({
+    //     address: address
+    //   })
+    // }
 
     const newHouse = {
       id: houseId,
       name: house.name,
       rank: house.rank,
-      creators: creators,
+      // creators: creators,
       curator: house.curator,
-      shortCurator: shortCurator,
       fee: house.fee / 100,
       preApproved: house.preApproved,
       bids: house.bids.toNumber(),
@@ -154,18 +146,14 @@ export async function getRankedHouses(provider: any, limit: number, from: string
     if (minimum && totalActive < minimum)
       continue
 
-    const shortCurator = await shortAddress(house.curator, provider)
-
     let creators = []
     if (getCreators) {
       const houseCreators = await contract.getHouseCreators(houseId).catch((e: any) => {
         console.warn(`In getHouseCreators`, e.message)
       })
       for (const address of houseCreators) {
-        const shortCreator = await shortAddress(address, provider)
         creators.push({
-          address: address,
-          shortAddress: shortCreator
+          address: address
         })
       }
     }
@@ -176,7 +164,6 @@ export async function getRankedHouses(provider: any, limit: number, from: string
       rank: house.rank,
       creators: creators,
       curator: house.curator,
-      shortCurator: shortCurator,
       fee: house.fee / 100,
       preApproved: house.preApproved,
       bids: house.bids.toNumber(),
@@ -213,13 +200,11 @@ export async function getCreatorHouses(provider: any, creator: string) {
     })
     if (!house.name)
       break
-    const shortCurator = await shortAddress(house.curator, provider)
     const newHouse = {
       id: houseId,
       name: house.name,
       rank: house.rank,
       curator: house.curator,
-      shortCurator: shortCurator,
       fee: house.fee / 100,
       preApproved: house.preApproved,
       bids: house.bids.toNumber(),
@@ -261,10 +246,8 @@ export async function getCuratorHouses(provider: any, curator: string) {
     })
     let creators = []
     for (const address of houseCreators) {
-      const shortCreator = await shortAddress(address, provider)
       creators.push({
-        address: address,
-        shortAddress: shortCreator
+        address: address
       })
     }
 
@@ -272,14 +255,11 @@ export async function getCuratorHouses(provider: any, curator: string) {
       console.warn(`In getHouseQueue`, e.message)
     })
 
-    const shortCurator = await shortAddress(house.curator, provider)
-
     const newHouse = {
       id: houseId,
       name: house.name,
       rank: house.rank,
       curator: house.curator,
-      shortCurator: shortCurator,
       fee: house.fee / 100,
       preApproved: house.preApproved,
       bids: house.bids.toNumber(),

@@ -36,11 +36,10 @@ export async function getRankedContracts(provider: any, limit: number, from: str
     if (!tokenContract.name)
       break
 
-    let owner = ''
-    const collection = new ethers.Contract(tokenContract.tokenContract, ERC721, provider)
-    owner = await collection.owner().catch((e: any) => {})
-
-    contracts.push({owner: owner, ...tokenContract})
+    // const collection = new ethers.Contract(tokenContract.tokenContract, ERC721, provider)
+    // const owner = await collection.owner().catch((e: any) => {})
+    // contracts.push({owner: owner, ...tokenContract})
+    contracts.push(tokenContract)
   }
 
   return [totalContracts.toNumber(), contracts]
@@ -54,40 +53,13 @@ export async function getTokenContract(provider: any, address: string) {
     console.warn(`In contract.contracts`, e.message)
   })
 
-  let owner = ''
-  const collection = new ethers.Contract(tokenContract.tokenContract, ERC721, provider)
-  owner = await collection.owner().catch((e: any) => {})
+  const owner = await getContractOwner(provider, tokenContract.tokenContract)
 
   return {owner: owner, ...tokenContract}
 }
 
-
-// DEPRECATED
-export async function getTokenContracts(provider: any, limit: number = 100, offset: number = 0) {
-  const contract = new ethers.Contract(AUCTIONS, Auctions, provider)
-
-  const totalContracts = await contract.totalContracts().catch((e: any) => {
-    console.warn(`In totalContracts`, e.message)
-  })
-
-  let contracts = [] as any
-
-  if (!totalContracts)
-    return contracts
-
-  for (let i = offset + 1; i < offset + limit + 1; i++) {
-    const tokenContract = await contract.contracts(i).catch((e: any) => {
-      console.warn(`In contract.contracts`, e.message)
-    })
-    if (!tokenContract.name)
-      break
-
-    let owner = ''
-    const collection = new ethers.Contract(tokenContract.tokenContract, ERC721, provider)
-    owner = await collection.owner().catch((e: any) => {})
-
-    contracts.push({owner: owner, ...tokenContract})
-  }
-
-  return contracts
+export async function getContractOwner(provider: any, address: string) {
+    const collection = new ethers.Contract(address, ERC721, provider)
+    const owner = await collection.owner().catch((e: any) => {})
+    return owner
 }

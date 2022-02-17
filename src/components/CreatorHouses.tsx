@@ -8,6 +8,7 @@ import Alert from 'react-bootstrap/Alert'
 import Table from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form'
 
+import Address from './Address'
 import TokenAmount from 'token-amount'
 
 import { getCreatorHouses } from '../fetchers/houses'
@@ -67,9 +68,9 @@ export default function CreatorHouses(props: any) {
                   </Link>
                 </td>
                 <td className='align-middle'>
-                  <Link to={ `/address/${house.curator}` } className='text-muted'>
-                    {house.shortCurator}
-                  </Link>
+                  <div className='text-muted'>
+                    <Address address={house.curator} />
+                  </div>
                 </td>
                 <td className='align-middle text-end'>
                   {house.fee} %

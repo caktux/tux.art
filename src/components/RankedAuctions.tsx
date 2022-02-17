@@ -14,6 +14,7 @@ import Col from 'react-bootstrap/Col'
 import AuctionItem from '../components/AuctionItem'
 
 import { getTopAuctions } from '../fetchers/auctions'
+import { getTopAuctionsGraph } from '../fetchers/auctions-graph'
 import { ethers } from 'ethers'
 
 
@@ -26,6 +27,7 @@ export const RankedAuctions = (props: any) => {
   const [ fetched, setFetched ] = useState(false)
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
   const [ auctions, setAuctions ] = useState([])
 
   const mounted = useRef(true)
@@ -63,10 +65,23 @@ export const RankedAuctions = (props: any) => {
     const fetchAuctions = async () => {
       if (fetched || !mounted.current)
         return
-
       setFetched(true)
 
-      const [total, auctions] = await getTopAuctions(provider, props.limit, offsets[offset])
+      let total = 0
+      let auctions = []
+      let timedOut = false
+      if (graphAvailable)
+        [total, auctions, timedOut] = await getTopAuctionsGraph(props.limit, offset)
+      else
+        [total, auctions] = await getTopAuctions(provider, props.limit, offsets[offset])
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        [total, auctions] = await getTopAuctions(provider, props.limit, offsets[offset])
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return

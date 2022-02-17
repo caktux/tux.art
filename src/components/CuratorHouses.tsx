@@ -15,6 +15,7 @@ import Alert from 'react-bootstrap/Alert'
 import Table from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form'
 
+import Address from './Address'
 import TokenAmount from 'token-amount'
 
 import { ethers, Signer } from 'ethers'
@@ -153,9 +154,9 @@ export default function CuratorHouses(props: any) {
                   </Link>
                 </td>
                 <td className='align-middle'>
-                  <Link to={ `/address/${house.curator}` } className='text-muted'>
-                    {house.shortCurator}
-                  </Link>
+                  <div className='text-muted'>
+                    <Address address={house.curator} />
+                  </div>
                 </td>
                 <td className='align-middle text-end'>
                   {house.fee} %
@@ -192,9 +193,9 @@ export default function CuratorHouses(props: any) {
                               house.creators.map((creator: any, idx: number) => {
                                 return (
                                   <ListGroup.Item key={`creator-${house.id}-${creator.address}`}>
-                                    <Link to={ `/address/${creator.address}` } className='text-muted'>
-                                      {creator.shortAddress}
-                                    </Link>
+                                    <div className='text-muted'>
+                                      <Address address={creator.address} />
+                                    </div>
                                   </ListGroup.Item>
                                 )
                               })
