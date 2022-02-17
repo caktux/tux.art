@@ -68,14 +68,19 @@ export const ActiveAuctions = (props: any) => {
       setFetched(true)
 
       let skipFirst = false
+      let timedOut = false
+      let totalRunning = 0
+      let auctionsRunning = []
       const nextFeaturedTime = await getNextFeaturedTime(provider)
-      if (nextFeaturedTime * 1000 <= Date.now() - 86400)
-        skipFirst = true
+      if (nextFeaturedTime * 1000 <= Date.now() - 86400) {
+        [totalRunning, auctionsRunning, timedOut] = await getActiveAuctionsGraph(1, 0, true)
+        if (!totalRunning && !auctionsRunning && !timedOut)
+          skipFirst = true
+      }
 
       let total = 0
       let auctions = []
-      let timedOut = false
-      if (graphAvailable)
+      if (graphAvailable && !timedOut)
         [total, auctions, timedOut] = await getActiveAuctionsGraph(props.limit, offset + (skipFirst ? 1 : 0))
       else
         [total, auctions] = await getActiveAuctions(provider, props.limit, offsets[offset])
@@ -83,7 +88,7 @@ export const ActiveAuctions = (props: any) => {
       if (!mounted.current)
         return
 
-      if (timedOut) {
+      if (graphAvailable && timedOut) {
         [total, auctions] = await getActiveAuctions(provider, props.limit, offsets[offset])
         setGraphAvailable(false)
       }

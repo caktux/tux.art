@@ -83,7 +83,6 @@ const tokenToProps = async (token: any, provider: any) => {
   let ext = uri.split('.') as any
   if (ext)
     ext = ext.pop().toLowerCase() || ''
-  // const previewExt = previewUri.split('.').pop() || ''
 
   let mimeType = lookup(uri)
   let previewMimeType = lookup(previewUri) || (previewUri.endsWith('thumbnail') && 'image/jpeg')
@@ -123,8 +122,7 @@ const tokenToProps = async (token: any, provider: any) => {
     is3D: ['gltf', 'glb'].includes(ext),
     title: name,
     description: description,
-    createdBy: createdBy ? `Created by ${createdBy}` : '',
-    // ownedBy: ownedBy
+    createdBy: createdBy ? `Created by ${createdBy}` : ''
   }
 
   return token

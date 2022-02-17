@@ -85,7 +85,7 @@ export async function getActiveHouseAuctionsGraph(houseId: number, limit: number
 }
 
 
-export async function getActiveAuctionsGraph(limit: number, from: number) {
+export async function getActiveAuctionsGraph(limit: number, from: number, running = false) {
   let total = 0
   let results = [] as any
   let auctions = [] as any
@@ -95,7 +95,7 @@ export async function getActiveAuctionsGraph(limit: number, from: number) {
       totals(id: "1") {
         auctions
         active(first: ${limit}, skip: ${from},
-               orderBy: intId, orderDirection: desc) {
+               orderBy: ${running ? 'bids' : 'intId'}, orderDirection: desc) {
           ${FIELDS}
         }
       }

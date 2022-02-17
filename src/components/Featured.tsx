@@ -30,50 +30,44 @@ export const Featured = (props: any) => {
     if (!mounted.current)
       return
 
-    if (!auction) {
-      const fetchLatestAuction = async () => {
-        let total = 0
-        let auctions = []
-        let timedOut = false
-        if (graphAvailable)
-          [total, auctions, timedOut] = await getActiveAuctionsGraph(1, 0)
-        else
-          [total, auctions] = await getActiveAuctions(provider, 1, '0')
-
-        if (!mounted.current)
-          return
-
-        if (timedOut) {
-          [total, auctions] = await getActiveAuctions(provider, 1, '0')
-          setGraphAvailable(false)
-        }
-
-        if (!mounted.current)
-          return
-
-        if (!auctions || auctions.length === 0) {
-          setLoaded(true)
-          return
-        }
-
-        latestAuction(auctions[0], total)
-      }
-      fetchLatestAuction()
+    if (auction) {
+      setAuction(auction)
+      setLoaded(true)
       return
     }
 
-    setAuction(auction)
+    const fetchLatestAuction = async () => {
+      let total = 0
+      let auctions = []
+      let timedOut = false
 
-    setLoaded(true)
-  }
+      if (graphAvailable) {
+        [total, auctions, timedOut] = await getActiveAuctionsGraph(1, 0, true)
+        if (!total || !auctions)
+          [total, auctions, timedOut] = await getActiveAuctionsGraph(1, 0)
+      }
+      else
+        [total, auctions] = await getActiveAuctions(provider, 1, '0')
 
-  const latestAuction = (auction: any, total: number) => {
-    if (!mounted.current)
-      return
+      if (!mounted.current)
+        return
 
-    setAuction(auction)
+      if (timedOut) {
+        [total, auctions] = await getActiveAuctions(provider, 1, '0')
+        setGraphAvailable(false)
+      }
 
-    setLoaded(true)
+      if (!mounted.current)
+        return
+
+      if (!auctions || auctions.length === 0) {
+        setLoaded(true)
+        return
+      }
+
+      updateAuction(auctions[0])
+    }
+    fetchLatestAuction()
   }
 
   useEffect(() => {
