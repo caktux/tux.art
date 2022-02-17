@@ -1,1 +1,0 @@
-{"version":3,"sources":["css/Vapor.tsx"],"names":["Vapor"],"mappings":"4GAAA,+BAMeA,UAFS,kBAAM","file":"static/js/47.1fee13a6.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/vapor/bootstrap.min.css'\n\nconst Vapor: React.FC = () => <></>\n\nexport default Vapor\n"],"sourceRoot":""}
