@@ -95,7 +95,7 @@ export async function getActiveAuctionsGraph(limit: number, from: number, runnin
       totals(id: "1") {
         auctions
         active(first: ${limit}, skip: ${from},
-               orderBy: ${running ? 'bids' : 'intId'}, orderDirection: desc) {
+               orderBy: ${running ? 'firstBidTime' : 'intId'}, orderDirection: desc) {
           ${FIELDS}
         }
       }
