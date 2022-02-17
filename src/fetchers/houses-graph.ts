@@ -30,7 +30,7 @@ export async function getActiveHousesGraph(limit: number, from: number, minimum?
   const houseQuery = `
     query {
       houses(first: ${limit}, skip: ${from},
-             where: {activeAuctions_gt: ${minimum ? minimum - 1 : 0}},
+             where: {activeAuctions_gte: ${minimum ? minimum : 1}},
              orderBy: lastUpdated, orderDirection: desc) {
         ${FIELDS}
       }
@@ -58,7 +58,6 @@ export async function getActiveHousesGraph(limit: number, from: number, minimum?
         results = data.data.houses
         total = data.data.totals.houses
       }
-      // console.log('Subgraph data: ', data)
     })
     .catch((err) => {
       console.warn('Error fetching data: ', err)
@@ -89,7 +88,7 @@ export async function getRankedHousesGraph(limit: number, from: number, minimum?
   const houseQuery = `
     query {
       houses(first: ${limit}, skip: ${from},
-             where: {activeAuctions_gt: ${minimum ? minimum - 1 : 0}},
+             where: {activeAuctions_gte: ${minimum ? minimum : 1}},
              orderBy: bids, orderDirection: desc) {
         ${FIELDS}
       }
@@ -117,7 +116,6 @@ export async function getRankedHousesGraph(limit: number, from: number, minimum?
         results = data.data.houses
         total = data.data.totals.houses
       }
-      // console.log('Subgraph data: ', data)
     })
     .catch((err) => {
       console.warn('Error fetching data: ', err)

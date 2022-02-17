@@ -58,7 +58,6 @@ export async function getActiveHouseAuctionsGraph(houseId: number, limit: number
         results = data.data.houses[0].auctions
         total = data.data.houses[0].activeAuctions
       }
-      // console.log('Subgraph data: ', results)
     })
     .catch((err) => {
       console.warn('Error fetching data: ', err)
@@ -117,7 +116,6 @@ export async function getActiveAuctionsGraph(limit: number, from: number) {
       query: gql(auctionQuery),
     })
     .then((data) => {
-      // console.log('Subgraph data: ', data.data)
       if (data) {
         results = data.data.totals.active
         total = data.data.totals.auctions
@@ -185,7 +183,6 @@ export async function getTopAuctionsGraph(limit: number, from: number) {
       query: gql(auctionQuery),
     })
     .then((data) => {
-      // console.log('Subgraph data: ', data.data)
       if (data) {
         results = data.data.accounts
         total = data.data.totals.creators

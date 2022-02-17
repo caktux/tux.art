@@ -18,6 +18,8 @@ import AuctionItem from '../components/AuctionItem'
 import ListItem from '../components/ListItem'
 
 import { getLatestNFTs } from '../fetchers/latest'
+import { getContractOwner } from '../fetchers/contracts'
+import { getTokenContractGraph } from '../fetchers/contracts-graph'
 
 
 export default function TokenContract(props: any) {
@@ -27,14 +29,15 @@ export default function TokenContract(props: any) {
   const params = useParams<any>()
   const { path } = useRouteMatch()
 
-  const [ offset, setOffset ] = useState(
-    ['/contract/:address', '/contract/:address/:offset'].includes(path) && params.offset ?
-    parseInt(params.offset, 10): 0)
+  const [ offset, setOffset ] = useState(path === '/contract/:address/:offset?' && params.offset ? parseInt(params.offset, 10): 0)
   const [ loaded, setLoaded ] = useState(false)
   const [ fetched, setFetched ] = useState(false)
   const [ backDisabled, setBackDisabled ] = useState(true)
   const [ forwardDisabled, setForwardDisabled ] = useState(true)
   const [ tokens, setTokens ] = useState([])
+  const [ owner, setOwner ] = useState('')
+  const [ ownerFetched, setOwnerFetched ] = useState(false)
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
 
   const mounted = useRef(true)
 
@@ -60,7 +63,7 @@ export default function TokenContract(props: any) {
     setBackDisabled(true)
     setFetched(false)
     setLoaded(false)
-    if (['/contract/:address', '/contract/:address/:offset'].includes(path))
+    if (path === '/contract/:address/:offset?')
       history.push(`/contract/${props.contract.tokenContract}/${offset - props.limit}`)
   }
 
@@ -70,13 +73,45 @@ export default function TokenContract(props: any) {
     setBackDisabled(true)
     setFetched(false)
     setLoaded(false)
-    if (['/contract/:address', '/contract/:address/:offset'].includes(path))
+    if (path === '/contract/:address/:offset?')
       history.push(`/contract/${props.contract.tokenContract}/${offset + props.limit}`)
   }
 
   useEffect(() => {
+    const fetchAuctions = async () => {
+      if (fetched || loaded || !graphAvailable || !props.contract.auctions || !props.contract.tokenContract || !mounted.current)
+        return
+      setFetched(true)
+
+      let tokens = []
+      if (offset === 0)
+        tokens = props.contract.tokens
+      else {
+        const [contract, timedOut] = await getTokenContractGraph(props.contract.address, props.limit, offset)
+
+        if (!mounted.current)
+          return
+
+        if (contract && !timedOut)
+          tokens = contract.tokens
+        else {
+          setGraphAvailable(false)
+          setFetched(false)
+        }
+      }
+
+      if (!mounted.current)
+        return
+
+      updateTokens(tokens ? tokens : [], props.contract.totalAuctions)
+      setLoaded(true)
+    }
+    fetchAuctions()
+  })
+
+  useEffect(() => {
     const fetchNFTs = async () => {
-      if (fetched || loaded || !props.contract.tokenContract || !mounted.current)
+      if (fetched || loaded || props.contract.auctions || !props.contract.tokenContract || !mounted.current)
         return
       setFetched(true)
 
@@ -92,7 +127,23 @@ export default function TokenContract(props: any) {
   })
 
   useEffect(() => {
-    if (!mounted.current || !['/contract/:address', '/contract/:address/:offset'].includes(path))
+    const fetchOwner = async () => {
+      if (ownerFetched || !props.contract.tokenContract || !mounted.current)
+        return
+      setOwnerFetched(true)
+
+      const owner = await getContractOwner(provider, props.contract.tokenContract)
+
+      if (!mounted.current)
+        return
+
+      setOwner(owner)
+    }
+    fetchOwner()
+  })
+
+  useEffect(() => {
+    if (!mounted.current || path !== '/contract/:address/:offset?')
       return
 
     const paramsOffset = params.offset ? parseInt(params.offset, 10) : 0
@@ -119,7 +170,7 @@ export default function TokenContract(props: any) {
       <Card.Header className='mb-2'>
         <Row xs={1}>
           <Col xs={6} className='vertical-align'>
-            { path !== '/contract/:address' ?
+            { path !== '/contract/:address/:offset?' ?
               <Link to={`/contract/${props.contract.tokenContract}`}>
                 {props.contract.name}
               </Link> :
@@ -128,7 +179,7 @@ export default function TokenContract(props: any) {
           </Col>
           <Col xs={6} className='text-end'>
             <ButtonGroup>
-              { props.contract.owner && account === props.contract.owner &&
+              { owner && account === owner &&
                 <Button size='sm' variant='success' className='me-3' href={`/#/mint/${props.contract.tokenContract}`}>
                   Mint in this collection
                 </Button>

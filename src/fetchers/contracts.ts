@@ -36,15 +36,11 @@ export async function getRankedContracts(provider: any, limit: number, from: str
     if (!tokenContract.name)
       break
 
-    // const collection = new ethers.Contract(tokenContract.tokenContract, ERC721, provider)
-    // const owner = await collection.owner().catch((e: any) => {})
-    // contracts.push({owner: owner, ...tokenContract})
     contracts.push(tokenContract)
   }
 
   return [totalContracts.toNumber(), contracts]
 }
-
 
 export async function getTokenContract(provider: any, address: string) {
   const contract = new ethers.Contract(AUCTIONS, Auctions, provider)
@@ -53,9 +49,7 @@ export async function getTokenContract(provider: any, address: string) {
     console.warn(`In contract.contracts`, e.message)
   })
 
-  const owner = await getContractOwner(provider, tokenContract.tokenContract)
-
-  return {owner: owner, ...tokenContract}
+  return tokenContract
 }
 
 export async function getContractOwner(provider: any, address: string) {

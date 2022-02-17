@@ -16,7 +16,7 @@ import House from '../components/House'
 import { CreateHouseModal } from '../components/modals/CreateHouseModal'
 
 import { getActiveHouses } from '../fetchers/houses'
-import { getActiveHousesGraph } from '../fetchers/houses-graph'
+import { getRankedHousesGraph } from '../fetchers/houses-graph'
 
 
 export default function Houses(props: any) {
@@ -79,7 +79,7 @@ export default function Houses(props: any) {
       let timedOut = false
 
       if (graphAvailable)
-        [total, houses, timedOut] = await getActiveHousesGraph(props.limit, offset)
+        [total, houses, timedOut] = await getRankedHousesGraph(props.limit, offset)
       else
         [total, houses] = await getActiveHouses(provider, props.limit, offsets[offset])
 

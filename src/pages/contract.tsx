@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row'
 import TokenContract from '../components/TokenContract'
 
 import { getTokenContract } from '../fetchers/contracts'
+import { getTokenContractGraph } from '../fetchers/contracts-graph'
 
 
 export default function Contract(props: any) {
@@ -16,7 +17,8 @@ export default function Contract(props: any) {
   const params = useParams<any>()
 
   const [ fetched, setFetched ] = useState(false)
-  const [ contract, setContract ] = useState({name: '', tokenContract: ''})
+  const [ contract, setContract ] = useState({name: '', tokenContract: '', auctions: []})
+  const [ graphAvailable, setGraphAvailable ] = useState(true)
 
   const mounted = useRef(true)
 
@@ -26,7 +28,21 @@ export default function Contract(props: any) {
         return
       setFetched(true)
 
-      const contract = await getTokenContract(provider, params.address)
+      let contract = {} as any
+      let timedOut = false
+
+      if (graphAvailable)
+        [contract, timedOut] = await getTokenContractGraph(params.address, props.limit, 0)
+      else
+        contract = await getTokenContract(provider, params.address)
+
+      if (!mounted.current)
+        return
+
+      if (timedOut) {
+        contract = await getTokenContract(provider, params.address)
+        setGraphAvailable(false)
+      }
 
       if (!mounted.current)
         return

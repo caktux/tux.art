@@ -53,7 +53,6 @@ export async function getRankedCreatorsGraph(limit: number, from: number) {
       query: gql(creatorsQuery),
     })
     .then((data) => {
-      // console.log('Subgraph data: ', data.data)
       if (data) {
         results = data.data.accounts
         total = data.data.totals.creators

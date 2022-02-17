@@ -46,7 +46,6 @@ export async function getRankedCollectorsGraph(limit: number, from: number) {
       query: gql(collectorsQuery),
     })
     .then((data) => {
-      // console.log('Subgraph data: ', data.data)
       if (data) {
         results = data.data.accounts
         total = data.data.totals.collectors
