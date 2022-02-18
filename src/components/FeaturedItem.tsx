@@ -12,7 +12,6 @@ import Container from 'react-bootstrap/Container'
 import Spinner from 'react-bootstrap/Spinner'
 import Tooltip from 'react-bootstrap/Tooltip'
 import Alert from 'react-bootstrap/Alert'
-import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -202,7 +201,7 @@ export default function FeaturedItem(props: any) {
                                   </Tooltip>
                                 }>
                                 {({ ref, ...triggerHandler }) => (
-                                  <Image ref={ref} {...triggerHandler} src='' className='bidderTooltip' roundedCircle />
+                                  <div ref={ref} {...triggerHandler} className='bidderTooltip rounded-circle' />
                                 )}
                               </OverlayTrigger> }
                           </p>

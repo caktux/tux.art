@@ -35,7 +35,7 @@ export async function getFeatured(provider: any, front = false) {
     const nextFeaturedTime = await contract.getNextFeaturedTime().catch((e: any) => {
       console.warn('In getNextFeaturedTime', e.message)
     })
-    if (nextFeaturedTime.mul(1000).lte(Date.now() - 86400))
+    if (nextFeaturedTime.mul(1000).lte(Date.now() - 86400000))
       return null
   }
 
