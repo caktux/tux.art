@@ -107,7 +107,7 @@ export default function FeaturedItem(props: any) {
 
   return (
     <>
-      <Card className='auctionCard featured'>
+      <div className='auctionCard featured'>
         <Row>
           <Col lg='6'>
             <div className='previewImage'>
@@ -162,6 +162,7 @@ export default function FeaturedItem(props: any) {
           </Col>
 
           <Col xs lg='6'>
+            <Card>
             <Card.Body className='pt-5'>
             { token.props.title ?
               <Card.Title>
@@ -263,9 +264,10 @@ export default function FeaturedItem(props: any) {
                 </Placeholder>
               }
             </Card.Body>
+            </Card>
           </Col>
         </Row>
-      </Card>
+      </div>
     </>
   )
 }

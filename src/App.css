@@ -91,8 +91,28 @@ body {
   max-width: 1200px;
 }
 
+.auctionCard.featured .previewImage .text-center {
+  background-color: inherit;
+}
+
 .auctionCard.featured .previewImage {
-  height: 24rem;
+  background-color: inherit;
+  height: 28rem;
+}
+
+.auctionCard.featured .previewImage img {
+  object-fit: contain;
+}
+
+.auctionCard.featured .card {
+  background-color: inherit;
+  border: none;
+}
+
+.auctionCard.featured .card-text {
+  height: 7.5rem;
+  margin-bottom: 2rem;
+  -webkit-line-clamp: 5;
 }
 
 .auctionCard.featured .card-body {
@@ -197,10 +217,6 @@ body {
   overflow: hidden;
   width: 100%;
 }
-
-/* .fullscreen-enabled .fullCard .fullImage {
-  width: auto;
-} */
 
 .fullImage .text-center {
   color: #fff;

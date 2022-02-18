@@ -106,7 +106,7 @@ export async function getTokenContractGraph(address: string, first: number, offs
 
   const contractQuery = `
     query {
-      contracts(where: {id: "${address}"}) {
+      contracts(where: {id: "${address.toLowerCase()}"}) {
         ${FIELDS}
         auctions(first: ${first}, skip: ${offset}, orderBy: intId, orderDirection: desc) {
           id
