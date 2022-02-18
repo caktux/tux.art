@@ -11,12 +11,12 @@
     "static/js/4.1501404f.chunk.js": "/tux.art/static/js/4.1501404f.chunk.js",
     "static/js/4.1501404f.chunk.js.map": "/tux.art/static/js/4.1501404f.chunk.js.map",
     "main.css": "/tux.art/static/css/main.7861a523.chunk.css",
-    "main.js": "/tux.art/static/js/main.0a29940c.chunk.js",
-    "main.js.map": "/tux.art/static/js/main.0a29940c.chunk.js.map",
+    "main.js": "/tux.art/static/js/main.b6858d68.chunk.js",
+    "main.js.map": "/tux.art/static/js/main.b6858d68.chunk.js.map",
     "runtime-main.js": "/tux.art/static/js/runtime-main.7f3de8c3.js",
     "runtime-main.js.map": "/tux.art/static/js/runtime-main.7f3de8c3.js.map",
-    "static/js/7.331ad01a.chunk.js": "/tux.art/static/js/7.331ad01a.chunk.js",
-    "static/js/7.331ad01a.chunk.js.map": "/tux.art/static/js/7.331ad01a.chunk.js.map",
+    "static/js/7.3b5dd56c.chunk.js": "/tux.art/static/js/7.3b5dd56c.chunk.js",
+    "static/js/7.3b5dd56c.chunk.js.map": "/tux.art/static/js/7.3b5dd56c.chunk.js.map",
     "static/js/8.5034f052.chunk.js": "/tux.art/static/js/8.5034f052.chunk.js",
     "static/js/8.5034f052.chunk.js.map": "/tux.art/static/js/8.5034f052.chunk.js.map",
     "static/js/9.a0532a7c.chunk.js": "/tux.art/static/js/9.a0532a7c.chunk.js",
@@ -134,15 +134,15 @@
     "static/js/10.1700e512.chunk.js.LICENSE.txt": "/tux.art/static/js/10.1700e512.chunk.js.LICENSE.txt",
     "static/js/11.5d42d161.chunk.js.LICENSE.txt": "/tux.art/static/js/11.5d42d161.chunk.js.LICENSE.txt",
     "static/js/48.ab7773b7.chunk.js.LICENSE.txt": "/tux.art/static/js/48.ab7773b7.chunk.js.LICENSE.txt",
-    "static/js/7.331ad01a.chunk.js.LICENSE.txt": "/tux.art/static/js/7.331ad01a.chunk.js.LICENSE.txt",
+    "static/js/7.3b5dd56c.chunk.js.LICENSE.txt": "/tux.art/static/js/7.3b5dd56c.chunk.js.LICENSE.txt",
     "static/js/8.5034f052.chunk.js.LICENSE.txt": "/tux.art/static/js/8.5034f052.chunk.js.LICENSE.txt",
     "static/media/AccessControlAllowOrigin.37289caf.png": "/tux.art/static/media/AccessControlAllowOrigin.37289caf.png",
     "static/media/BraveIPFS.56177d03.png": "/tux.art/static/media/BraveIPFS.56177d03.png"
   },
   "entrypoints": [
     "static/js/runtime-main.7f3de8c3.js",
-    "static/js/7.331ad01a.chunk.js",
+    "static/js/7.3b5dd56c.chunk.js",
     "static/css/main.7861a523.chunk.css",
-    "static/js/main.0a29940c.chunk.js"
+    "static/js/main.b6858d68.chunk.js"
   ]
 }
