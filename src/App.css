@@ -112,6 +112,7 @@ body {
 .auctionCard.featured .card-text {
   height: 7.5rem;
   margin-bottom: 2rem;
+  white-space: pre-line;
   -webkit-line-clamp: 5;
 }
 
