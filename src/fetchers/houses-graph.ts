@@ -29,7 +29,7 @@ export async function getActiveHousesGraph(limit: number, from: number, minimum?
   const houseQuery = `
     query {
       houses(first: ${limit}, skip: ${from},
-             where: {activeAuctions_gte: ${minimum ? minimum : 1}},
+             where: {lastUpdated_gt: 0, activeAuctions_gte: ${minimum ? minimum : 0}},
              orderBy: lastUpdated, orderDirection: desc) {
         ${FIELDS}
       }

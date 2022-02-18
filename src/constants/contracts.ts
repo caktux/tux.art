@@ -21,6 +21,6 @@ export const TUX = '0x857F47fEef68289da771Bf9c63532CF8A7A3472B' // Mainnet
 //                    '0x857F47fEef68289da771Bf9c63532CF8A7A3472B' // Mainnet
 
 export const APIURL = 'https://api.thegraph.com/subgraphs/name/caktux/tux-v1'
-// export const APIURL = 'https://api.studio.thegraph.com/query/21425/tux-v1/v1.0.6'
+// export const APIURL = 'https://api.studio.thegraph.com/query/21425/tux-v1/v1.0.7'
 // export const APIURL =
 //   'https://gateway.thegraph.com/api/557ffea145943d8d7db733c5c3f6af39/subgraphs/id/0x378bcce7235d53bbc3774bff8559191f06e6818e-0'
