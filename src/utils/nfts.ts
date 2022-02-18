@@ -19,7 +19,8 @@ export const emptyHouse = {
   preApproved: false,
   bids: 0,
   sales: 0,
-  feesTotal: 0
+  total: '',
+  feesTotal: ''
 }
 
 export const emptyToken = {

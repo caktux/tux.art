@@ -1,5 +1,4 @@
 
-// import { BigNumber } from 'ethers'
 import { APIURL } from '../constants/contracts'
 import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
@@ -25,7 +24,7 @@ export async function getRankedCollectorsGraph(limit: number, from: number) {
         collectors
       }
       accounts(first: ${limit}, skip: ${from},
-               where: {bids_gt: 0},
+               where: {isCollector: true},
                orderBy: bids, orderDirection: desc) {
         ${FIELDS}
       }

@@ -1,5 +1,4 @@
 
-import { BigNumber } from 'ethers'
 import { APIURL } from '../constants/contracts'
 import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
@@ -64,13 +63,13 @@ export async function getActiveHousesGraph(limit: number, from: number, minimum?
     })
 
   for (let i = 0; i < results.length; i++) {
-    if (results[i].id === '0')
+    const result = results[i]
+    if (result.id === '0')
       break
 
     const house = {
-      ...results[i],
-      fee: results[i].fee / 100,
-      activeAuctions: BigNumber.from(results[i].activeAuctions)
+      ...result,
+      fee: result.fee / 100
     }
 
     houses.push(house)

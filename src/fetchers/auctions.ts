@@ -34,7 +34,7 @@ export async function getActiveHouseAuctions(provider: any, house: any, limit: n
 
   let auctions = [] as any
 
-  if (!house.activeAuctions || house.activeAuctions.eq(0))
+  if (!house.activeAuctions || house.activeAuctions === 0)
     return [0, auctions]
 
   const auctionIDs = await contract.getHouseAuctions(house.id, from, limit).catch((e: any) => {
@@ -58,7 +58,7 @@ export async function getActiveHouseAuctions(provider: any, house: any, limit: n
       auctions.push(auctionWithID)
   }
 
-  return [house.activeAuctions.toNumber(), auctions]
+  return [house.activeAuctions, auctions]
 }
 
 

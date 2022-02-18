@@ -32,7 +32,7 @@ export async function getHouse(provider: any, houseId: string) {
     sales: house.sales.toNumber(),
     total: house.total,
     feesTotal: house.feesTotal,
-    activeAuctions: totalActive
+    activeAuctions: totalActive.toNumber()
   }
 
   return newHouse
@@ -99,7 +99,7 @@ export async function getActiveHouses(provider: any, limit: number, from: string
       sales: house.sales.toNumber(),
       total: house.total,
       feesTotal: house.feesTotal,
-      activeAuctions: totalActive
+      activeAuctions: totalActive.toNumber()
     }
     houses.push(newHouse)
 
@@ -170,7 +170,7 @@ export async function getRankedHouses(provider: any, limit: number, from: string
       sales: house.sales.toNumber(),
       total: house.total,
       feesTotal: house.feesTotal,
-      activeAuctions: totalActive
+      activeAuctions: totalActive.toNumber()
     }
     houses.push(newHouse)
 

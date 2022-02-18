@@ -1,5 +1,4 @@
 
-import { BigNumber } from 'ethers'
 import { APIURL } from '../constants/contracts'
 import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
@@ -32,7 +31,7 @@ export async function getRankedCreatorsGraph(limit: number, from: number) {
         creators
       }
       accounts(first: ${limit}, skip: ${from},
-               where: {sellingTotal_gt: 0},
+               where: {isCreator: true},
                orderBy: bidsReceived, orderDirection: desc) {
         ${FIELDS}
       }
@@ -69,8 +68,8 @@ export async function getRankedCreatorsGraph(limit: number, from: number) {
       address: result.id,
       bidsMade: result.bids,
       bids: result.bidsReceived,
-      total: BigNumber.from(result.totalSold),
-      totalBought: BigNumber.from(result.totalBought)
+      total: result.totalSold,
+      totalBought: result.totalBought
     }
 
     creators.push(creator)

@@ -64,18 +64,19 @@ export async function getActiveHouseAuctionsGraph(houseId: number, limit: number
     })
 
   for (let i = 0; i < results.length; i++) {
-    if (results[i].id === '0')
+    const result = results[i]
+    if (result.id === '0')
       break
 
     const auction = {
-      ...results[i],
-      reservePrice: BigNumber.from(results[i].reservePrice),
-      firstBidTime: BigNumber.from(results[i].firstBidTime),
-      duration: BigNumber.from(results[i].duration),
-      created: BigNumber.from(results[i].created),
-      amount: BigNumber.from(results[i].amount),
-      tokenContract: results[i].contract,
-      tokenOwner: results[i].owner
+      ...result,
+      reservePrice: BigNumber.from(result.reservePrice),
+      firstBidTime: BigNumber.from(result.firstBidTime),
+      duration: BigNumber.from(result.duration),
+      created: BigNumber.from(result.created),
+      amount: BigNumber.from(result.amount),
+      tokenContract: result.contract,
+      tokenOwner: result.owner
     }
 
     auctions.push(auction)
@@ -126,18 +127,19 @@ export async function getActiveAuctionsGraph(limit: number, from: number, runnin
     })
 
   for (let i = 0; i < results.length; i++) {
-    if (results[i].id === '0')
+    const result = results[i]
+    if (result.id === '0')
       break
 
     const auction = {
-      ...results[i],
-      reservePrice: BigNumber.from(results[i].reservePrice),
-      firstBidTime: BigNumber.from(results[i].firstBidTime),
-      duration: BigNumber.from(results[i].duration),
-      created: BigNumber.from(results[i].created),
-      amount: BigNumber.from(results[i].amount),
-      tokenContract: results[i].contract,
-      tokenOwner: results[i].owner
+      ...result,
+      reservePrice: BigNumber.from(result.reservePrice),
+      firstBidTime: BigNumber.from(result.firstBidTime),
+      duration: BigNumber.from(result.duration),
+      created: BigNumber.from(result.created),
+      amount: BigNumber.from(result.amount),
+      tokenContract: result.contract,
+      tokenOwner: result.owner
     }
 
     auctions.push(auction)
