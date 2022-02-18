@@ -199,7 +199,7 @@ export default function AuctionItem(props: any) {
                               </Tooltip>
                             }>
                             {({ ref, ...triggerHandler }) => (
-                              <Image ref={ref} {...triggerHandler} src='' className='bidderTooltip' roundedCircle />
+                              <div ref={ref} {...triggerHandler} className='bidderTooltip rounded-circle' />
                             )}
                           </OverlayTrigger> }
                       </p>
