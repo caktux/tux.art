@@ -28,6 +28,7 @@ export default function ListItem(props: any) {
   const [ error, setError ] = useState(false)
   const [ loaded, setLoaded ] = useState(false)
   const [ fetched, setFetched ] = useState(false)
+  const [ focused, setFocused ] = useState('')
   const [ token, setToken ] = useState(emptyToken as any)
 
   const mounted = useRef(true)
@@ -88,17 +89,28 @@ export default function ListItem(props: any) {
 
   return (
     <Col className='mb-3'>
-      <Card className='previewCard'>
-        <div className='previewImage'>
+      <Card className='previewCard'
+            onTouchStart={(e) => { setFocused(!focused ? 'focused' : '') }}
+            onTouchEnd={(e) => { setFocused(!focused ? 'focused' : '') }}>
+        <div className={`previewImage grow ${focused}`}>
         { !error && token.props.src ? (
             token.props.isImagePreview ?
-            <Link to={ `/nft/${props.address}/${props.tokenId}` }>
-              <LazyImg
-                className='card-img-top'
-                src={token.props.src}
-                alt={token.props.title}
-                isOwner={account === token.props.owner} />
-            </Link> :
+            <>
+              <Link to={ `/nft/${props.address}/${props.tokenId}` }>
+                <LazyImg
+                  className='card-img-top'
+                  src={token.props.src}
+                  alt={token.props.title}
+                  isOwner={account === token.props.owner} />
+              </Link>
+              <Link to={ `/nft/${props.address}/${props.tokenId}` }>
+                <LazyImg
+                  className='full'
+                  src={token.props.src}
+                  alt={token.props.title}
+                  isOwner={account === token.props.owner} />
+              </Link>
+            </> :
             token.props.isVideoPreview ?
             <video autoPlay loop controls muted>
               <source src={ token.props.src }></source>

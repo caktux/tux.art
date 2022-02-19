@@ -87,6 +87,30 @@ body {
   color: #000;
 }
 
+.grow .full {
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  transition: all 0.33s ease;
+}
+
+.grow:hover .full,
+.grow.focused .full {
+  opacity: 1;
+  visibility: visible;
+}
+
+.grow:hover :first-child,
+.grow.focused :first-child {
+  backdrop-filter: blur(6px);
+}
+
+.previewImage.grow .full {
+  object-fit: contain;
+}
+
 .row .featuredContainer {
   max-width: 1200px;
 }
