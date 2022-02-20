@@ -86,7 +86,7 @@ export default function FeaturedItem(props: any) {
 
       updateToken(fetchedToken)
 
-      const loadedToken = await loadToken(fetchedToken, ipfsHost, true)
+      const loadedToken = await loadToken(fetchedToken, ipfsHost)
 
       if (!mounted.current)
         return
@@ -110,18 +110,18 @@ export default function FeaturedItem(props: any) {
         <Row>
           <Col lg='6'>
             <div className='previewImage'>
-              { token.props.src ? (
+              { token.props.previewSrc ? (
                   token.props.isImagePreview ?
                   <Link to={ `/nft/${props.address}/${props.tokenId}` }>
                     <LazyImg
                       className='card-img-top'
-                      src={token.props.src}
+                      src={token.props.previewSrc}
                       alt={token.props.title}
                       isOwner={account === token.props.owner} />
                   </Link> :
                   token.props.isVideoPreview ?
                   <video autoPlay loop controls muted>
-                    <source src={ token.props.src }></source>
+                    <source src={ token.props.previewSrc }></source>
                     Your browser does not support the video element
                   </video> :
                   token.props.is3D ?
@@ -134,7 +134,7 @@ export default function FeaturedItem(props: any) {
                   </Container> :
                   token.props.isAudioPreview ?
                   <audio controls>
-                    <source src={ token.props.src }></source>
+                    <source src={ token.props.previewSrc }></source>
                     Your browser does not support audio element
                   </audio> :
                   token.props.isText ?

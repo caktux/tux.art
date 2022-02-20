@@ -1,7 +1,10 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useEthereum } from '../hooks/ethereum'
+import { useIPFS } from '../hooks/ipfs'
 import { useWallet } from 'use-wallet'
+
+import { Link } from 'react-router-dom'
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
@@ -10,6 +13,7 @@ import Popover from 'react-bootstrap/Popover'
 import Spinner from 'react-bootstrap/Spinner'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
+import Image from 'react-bootstrap/Image'
 import Table from 'react-bootstrap/Table'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
@@ -29,6 +33,7 @@ import { getRankedCollectorsGraph } from '../fetchers/collectors-graph'
 export const Collectors = (props: any) => {
   const { provider } = useEthereum()
   const { ethereum } = useWallet()
+  const { ipfsHost } = useIPFS()
 
   const [ error, setError ] = useState('')
   const [ offset, setOffset ] = useState(0)
@@ -177,6 +182,7 @@ export const Collectors = (props: any) => {
           <thead>
             <tr>
               <th>Rank</th>
+              <th></th>
               <th>Collector</th>
               <th className='text-center'>Bids</th>
               <th className='text-center'>Sales</th>
@@ -189,7 +195,7 @@ export const Collectors = (props: any) => {
           { collectors.map((collector: any, idx: number) => {
               return (
                 <tr key={idx}>
-                  <td>
+                  <td className='py-3'>
                     <OverlayTrigger
                       placement='right'
                       trigger='click'
@@ -215,12 +221,19 @@ export const Collectors = (props: any) => {
                     </OverlayTrigger>
                   </td>
                   <td>
+                    { collector.pictureHash &&
+                      <Link to={ `/address/${collector.address}` }>
+                        <Image className='statsPicture me-1' src={`${ipfsHost}/ipfs/${collector.pictureHash}`} roundedCircle />
+                      </Link>
+                    }
+                  </td>
+                  <td className='align-middle'>
                     <Address address={collector.address} />
                   </td>
-                  <td className='text-center'>{collector.bids}</td>
-                  <td className='text-center'>{collector.sales}</td>
-                  <td className='text-center'>{collector.bought}</td>
-                  <td className='text-end'>
+                  <td className='text-center align-middle'>{collector.bids}</td>
+                  <td className='text-center align-middle'>{collector.sales}</td>
+                  <td className='text-center align-middle'>{collector.bought}</td>
+                  <td className='text-end align-middle'>
                     {
                       TokenAmount.format(collector.totalSold, 18, {
                         symbol: 'Ξ',
@@ -229,7 +242,7 @@ export const Collectors = (props: any) => {
                       })
                     }
                   </td>
-                  <td className='text-end'>
+                  <td className='text-end align-middle'>
                     {
                       TokenAmount.format(collector.totalSpent, 18, {
                         symbol: 'Ξ',

@@ -191,7 +191,7 @@ export const Collections = (props: any) => {
             collections.map((collection: any, idx: number) => {
               return (
                 <tr key={idx}>
-                  <td>
+                  <td className='py-3'>
                     <OverlayTrigger
                       placement='right'
                       trigger='click'
@@ -216,14 +216,14 @@ export const Collections = (props: any) => {
                       )}
                     </OverlayTrigger>
                   </td>
-                  <td>
+                  <td className='align-middle'>
                     <Link to={ `/contract/${collection.tokenContract}` }>
                       {collection.name}
                     </Link>
                   </td>
-                  <td className='text-center'>{collection.bids}</td>
-                  <td className='text-center'>{collection.sales}</td>
-                  <td className='text-end'>
+                  <td className='text-center align-middle'>{collection.bids}</td>
+                  <td className='text-center align-middle'>{collection.sales}</td>
+                  <td className='text-end align-middle'>
                     {
                       TokenAmount.format(collection.total, 18, {
                         symbol: 'Ξ',

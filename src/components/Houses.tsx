@@ -213,7 +213,7 @@ export const Houses = (props: any) => {
               houses.map((house: any, idx: number) => {
                 return (
                   <tr key={idx}>
-                    <td>
+                    <td className='py-3'>
                       <OverlayTrigger
                         placement='right'
                         trigger='click'
@@ -238,17 +238,17 @@ export const Houses = (props: any) => {
                         )}
                       </OverlayTrigger>
                     </td>
-                    <td>
+                    <td className='align-middle'>
                       <Link to={ `/house/${house.id}` }>
                         {house.name}
                       </Link>
                     </td>
-                    <td>
+                    <td className='align-middle'>
                       <div className='text-muted'>
                         <Address address={house.curator} />
                       </div>
                     </td>
-                    <td className='text-center'>
+                    <td className='text-center align-middle'>
                       <OverlayTrigger
                         placement='left'
                         trigger='click'
@@ -281,19 +281,19 @@ export const Houses = (props: any) => {
                         )}
                       </OverlayTrigger>
                     </td>
-                    <td className='text-center'>
+                    <td className='text-center align-middle'>
                       { house.activeAuctions }
                     </td>
-                    <td className='text-end'>{house.fee} %</td>
-                    <td className='text-center'>
+                    <td className='text-end align-middle'>{house.fee} %</td>
+                    <td className='text-center align-middle'>
                       { house.preApproved ?
                         <Form.Check checked={true} disabled /> :
                         <Form.Check checked={false} disabled />
                       }
                     </td>
-                    <td className='text-center'>{house.bids}</td>
-                    <td className='text-center'>{house.sales}</td>
-                    <td className='text-end'>
+                    <td className='text-center align-middle'>{house.bids}</td>
+                    <td className='text-center align-middle'>{house.sales}</td>
+                    <td className='text-end align-middle'>
                       {
                         TokenAmount.format(house.feesTotal, 18, {
                           symbol: 'Ξ',
@@ -302,7 +302,7 @@ export const Houses = (props: any) => {
                         })
                       }
                     </td>
-                    <td className='text-end'>
+                    <td className='text-end align-middle'>
                       {
                         TokenAmount.format(house.total, 18, {
                           symbol: 'Ξ',

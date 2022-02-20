@@ -7,23 +7,25 @@ import { getIpfsHash, fetchAndParse } from '../utils/ipfs'
 import { lookup } from 'mime-types'
 
 
-export const loadToken = async (token: any, ipfsHost: string, isPreview: boolean = false) => {
-  const hash = getIpfsHash(isPreview && token.props.previewUri ?
-                           token.props.previewUri :
-                           token.props.uri)
+export const loadToken = async (token: any, ipfsHost: string) => {
+  const hash = getIpfsHash(token.props.uri)
+  const previewHash = getIpfsHash(token.props.previewUri)
 
-  if (!hash) { // Pretty much just MakersPlace and OpenSea...
-    token.props.src = token.props.previewUri && isPreview ?
-                      token.props.previewUri :
-                      token.props.uri
+  if (!hash || !previewHash) { // Pretty much just MakersPlace and OpenSea...
+    token.props.previewSrc = token.props.previewUri
+    token.props.src = token.props.uri
     return token
   }
 
   const resolvedHash = (hash.match && hash.match[3]) ?
                        `/ipfs/${hash.hash}/${hash.match[3]}` :
                        `/ipfs/${hash.hash}`
+  const resolvedPreviewHash = (previewHash.match && previewHash.match[3]) ?
+                              `/ipfs/${previewHash.hash}/${previewHash.match[3]}` :
+                              `/ipfs/${previewHash.hash}`
 
   token.props.src = `${ipfsHost}${resolvedHash}`
+  token.props.previewSrc = `${ipfsHost}${resolvedPreviewHash}`
 
   return token
 }
@@ -106,6 +108,7 @@ const tokenToProps = async (token: any, provider: any) => {
 
   token.props = {
     src: '',
+    previewSrc: '',
     uri: uri,
     previewUri: previewUri,
     owner: token.props.owner,
@@ -286,6 +289,7 @@ export async function fetchMetadata(provider: any, ipfs: any, ipfsHost: string, 
       creator: creator,
       uri: tokenURI,
       src: '',
+      previewSrc: '',
       title: '',
       description: ''
     }

@@ -108,7 +108,7 @@ export function UseIPFSProvider({ children }: { children: ReactNode } ) {
   }
 
   const [ ipfs, setIpfs] = useState<IPFS | null>(null)
-  const [ ipfsHost, setIpfsHost] = useState('https://dweb.link')
+  const [ ipfsHost, setIpfsHost] = useState('https://cf-ipfs.com')
   const [ peerCount, setPeerCount ] = useState(0)
   const [ started, setStarted ] = useState(false)
   // const [ ipfsProvider, setIpfsProvider ] = useState('')

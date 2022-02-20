@@ -90,7 +90,7 @@ export default function AuctionItem(props: any) {
 
       updateToken(fetchedToken)
 
-      const loadedToken = await loadToken(fetchedToken, ipfsHost, true)
+      const loadedToken = await loadToken(fetchedToken, ipfsHost)
 
       updateToken(loadedToken)
 
@@ -111,31 +111,36 @@ export default function AuctionItem(props: any) {
             onTouchStart={(e) => { setFocused(!focused ? 'focused' : '') }}
             onTouchEnd={(e) => { setFocused(!focused ? 'focused' : '') }}>
         <div className={`previewImage grow ${focused}`}>
-        { token.props.src ? (
+        { !error && token.props.previewSrc ? (
             token.props.isImagePreview ?
             <>
               <Link to={ `/nft/${props.address}/${props.tokenId}` }>
                 <LazyImg
                   className='card-img-top'
-                  src={token.props.src}
+                  src={token.props.previewSrc}
                   alt={token.props.title}
                   isOwner={account === token.props.owner} />
               </Link>
               <Link to={ `/nft/${props.address}/${props.tokenId}` }>
                 <LazyImg
                   className='full'
-                  src={token.props.src}
+                  src={token.props.previewSrc}
                   alt={token.props.title}
                   isOwner={account === token.props.owner} />
               </Link>
             </> :
             token.props.isVideoPreview ?
             <video autoPlay loop controls muted>
-              <source src={ token.props.src }></source>
+              <source src={ token.props.previewSrc }></source>
               Your browser does not support the video element
             </video> :
+            token.props.isAudioPreview ?
+            <audio controls>
+              <source src={ token.props.previewSrc }></source>
+              Your browser does not support audio element
+            </audio> :
             token.props.is3D ?
-            // <model-viewer src={ token.props.src }></model-viewer> :
+            // <model-viewer src={ token.props.previewSrc }></model-viewer> :
             <Container className='link-alert'>
               <Link to={ `/nft/${props.address}/${props.tokenId}` }>
                 <Alert variant='info'>
@@ -143,11 +148,6 @@ export default function AuctionItem(props: any) {
                 </Alert>
               </Link>
             </Container> :
-            token.props.isAudioPreview ?
-            <audio controls>
-              <source src={ token.props.src }></source>
-              Your browser does not support audio element
-            </audio> :
             token.props.isText ?
             <Container className='link-alert'>
               <Link to={ `/nft/${props.address}/${props.tokenId}` }>

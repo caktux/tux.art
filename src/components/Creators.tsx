@@ -1,7 +1,10 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useEthereum } from '../hooks/ethereum'
+import { useIPFS } from '../hooks/ipfs'
 import { useWallet } from 'use-wallet'
+
+import { Link } from 'react-router-dom'
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
@@ -10,6 +13,7 @@ import Popover from 'react-bootstrap/Popover'
 import Spinner from 'react-bootstrap/Spinner'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
+import Image from 'react-bootstrap/Image'
 import Table from 'react-bootstrap/Table'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
@@ -28,6 +32,7 @@ import { AUCTIONS } from '../constants/contracts'
 export const Creators = (props: any) => {
   const { provider } = useEthereum()
   const { ethereum } = useWallet()
+  const { ipfsHost } = useIPFS()
 
   const [ error, setError ] = useState('')
   const [ offset, setOffset ] = useState(0)
@@ -176,6 +181,7 @@ export const Creators = (props: any) => {
           <thead>
             <tr>
               <th>Rank</th>
+              <th></th>
               <th>Creator</th>
               <th className='text-center'>Bids</th>
               <th className='text-center'>Sales</th>
@@ -186,7 +192,7 @@ export const Creators = (props: any) => {
           { creators.map((creator: any, idx: number) => {
               return (
                 <tr key={idx}>
-                  <td>
+                  <td className='py-3'>
                     <OverlayTrigger
                       placement='right'
                       trigger='click'
@@ -212,11 +218,18 @@ export const Creators = (props: any) => {
                     </OverlayTrigger>
                   </td>
                   <td>
+                    { creator.pictureHash &&
+                      <Link to={ `/address/${creator.address}` }>
+                        <Image className='statsPicture me-1' src={`${ipfsHost}/ipfs/${creator.pictureHash}`} roundedCircle />
+                      </Link>
+                    }
+                  </td>
+                  <td className='align-middle'>
                     <Address address={creator.address} />
                   </td>
-                  <td className='text-center'>{creator.bids}</td>
-                  <td className='text-center'>{creator.sales}</td>
-                  <td className='text-end'>
+                  <td className='text-center align-middle'>{creator.bids}</td>
+                  <td className='text-center align-middle'>{creator.sales}</td>
+                  <td className='text-end align-middle'>
                     {
                       TokenAmount.format(creator.total, 18, {
                         symbol: 'Ξ',

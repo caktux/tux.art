@@ -82,6 +82,7 @@ export default function FullNFT(props: any) {
   const [ fetchedFeatured, setFetchedFeatured ] = useState(false)
   const [ contract, setContract ] = useState({name: '', tokenContract: ''})
   const [ fetchedContract, setFetchedContract ] = useState(false)
+  const [ mediaLoaded, setMediaLoaded ] = useState(false)
 
   const [ showUpdateReservePrice, setShowUpdateReservePrice ] = useState(false)
   const [ showCreateAuction, setShowCreateAuction ] = useState(false)
@@ -137,6 +138,8 @@ export default function FullNFT(props: any) {
 
   const handleShowBurn = () => setShowBurn(true)
   const handleCloseBurn = () => setShowBurn(false)
+
+  const handleLoaded = () => { setMediaLoaded(true) }
 
   const mounted = useRef(true)
 
@@ -321,13 +324,38 @@ export default function FullNFT(props: any) {
       }
       <Row xs={1} lg={2}>
         <Col xl={8}>
-          <Card>
+          <Card className={mediaLoaded ? 'loaded' : ''}>
+            <div className='fullPreview'>
+              { token.props.previewSrc && token.props.isImagePreview ?
+                <LazyImg
+                  src={token.props.previewSrc}
+                  alt={token.props.title}
+                  isOwner={account === token.props.owner} /> :
+                <Container className='text-center'>
+                  <Spinner animation='grow' role='status' />
+                </Container>
+              }
+            </div>
             <div className='fullImage'>
             { token.props.src ? (
+                token.props.isImage ?
+                  <FullScreen handle={handleFullscreen}>
+                    <LazyImg
+                      className='card-img-top'
+                      src={ token.props.src }
+                      alt={ token.props.title }
+                      fullscreen={handleFullscreen}
+                      onImageLoad={handleLoaded} />
+                  </FullScreen> :
                 token.props.isVideo ?
                   <video autoPlay loop muted controls>
                     <source src={ token.props.src } type='video/mp4'></source>
                   </video> :
+                token.props.isAudio ?
+                  <audio controls>
+                    <source src={ token.props.src }></source>
+                    Your browser does not support audio element
+                  </audio> :
                 token.props.is3D ?
                   // <model-viewer src={ token.props.src }></model-viewer> :
                   // <Model src={ token.props.src } />
@@ -336,19 +364,6 @@ export default function FullNFT(props: any) {
                       3D assets not supported yet
                     </Alert>
                   </Container> :
-                token.props.isAudio ?
-                  <audio controls>
-                    <source src={ token.props.src }></source>
-                    Your browser does not support audio element
-                  </audio> :
-                token.props.isImage ?
-                  <FullScreen handle={handleFullscreen}>
-                    <LazyImg
-                      className='card-img-top'
-                      src={ token.props.src }
-                      alt={ token.props.title }
-                      fullscreen={handleFullscreen} />
-                  </FullScreen> :
                 token.props.isText ?
                   <Container className='link-alert'>
                     <Alert variant='info'>

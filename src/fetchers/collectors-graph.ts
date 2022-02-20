@@ -5,6 +5,9 @@ import ApolloLinkTimeout from 'apollo-link-timeout'
 
 const FIELDS = `
   id
+  name
+  bioHash
+  pictureHash
   bids
   sales
   bought

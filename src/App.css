@@ -58,6 +58,11 @@ body {
   height: 100px;
 }
 
+.statsPicture {
+  width: 3rem;
+  height: 3rem;
+}
+
 .fill-height {
   height: 100%;
 }
@@ -93,13 +98,17 @@ body {
   opacity: 0;
   visibility: hidden;
   position: absolute;
-  transition: all 0.33s ease;
 }
 
 .grow:hover .full,
 .grow.focused .full {
   opacity: 1;
   visibility: visible;
+}
+
+.grow:hover .card-img-top,
+.grow.focused .card-img-top {
+  opacity: 0.33;
 }
 
 .grow:hover :first-child,
@@ -235,19 +244,44 @@ body {
   white-space: pre-line;
 }
 
-.fullCard .fullImage,
-.fullImage .text-center {
+.fullPreview {
   background-color: #000;
-  position: relative;
   overflow: hidden;
+}
+
+.fullPreview img {
+  width: 100%;
+  filter: blur(6px);
+}
+
+.loaded .fullPreview {
+  display: none;
+}
+
+.fullImage {
+  position: absolute;
+}
+
+.loaded .fullImage {
+  position: relative;
+}
+
+.fullCard .fullImage {
   width: 100%;
 }
 
+.fullImage .text-center {
+  width: 100%;
+}
+
+.fullPreview .text-center,
 .fullImage .text-center {
   color: #fff;
   height: 16rem;
 }
 
+.fullPreview .spinner-grow,
+.fullPreview .spinner-border,
 .fullImage .spinner-grow,
 .fullImage .spinner-border {
   margin-top: 7rem;
