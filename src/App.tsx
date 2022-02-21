@@ -108,7 +108,7 @@ function App() {
             <Nav>
               <Nav.Item className='d-none d-md-block'>
                 <Navbar.Text className='px-3'>
-                  IPFS: { ipfs !== null ? `${peerCount} peers` : (ipfsHost !== 'https://dweb.link' ? 'ON' : 'OFF') }
+                  IPFS: { ipfs !== null ? `${peerCount} peers` : (ipfsHost.startsWith('http://127.0.0.1') ? 'ON' : 'OFF') }
                 </Navbar.Text>
               </Nav.Item>
               <Nav.Item>
