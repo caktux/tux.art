@@ -11,8 +11,8 @@
     "static/js/4.1501404f.chunk.js": "/tux.art/static/js/4.1501404f.chunk.js",
     "static/js/4.1501404f.chunk.js.map": "/tux.art/static/js/4.1501404f.chunk.js.map",
     "main.css": "/tux.art/static/css/main.5cc8d3f2.chunk.css",
-    "main.js": "/tux.art/static/js/main.68d2002b.chunk.js",
-    "main.js.map": "/tux.art/static/js/main.68d2002b.chunk.js.map",
+    "main.js": "/tux.art/static/js/main.2322c59f.chunk.js",
+    "main.js.map": "/tux.art/static/js/main.2322c59f.chunk.js.map",
     "runtime-main.js": "/tux.art/static/js/runtime-main.5cd0b4f6.js",
     "runtime-main.js.map": "/tux.art/static/js/runtime-main.5cd0b4f6.js.map",
     "static/js/7.2d4a01ab.chunk.js": "/tux.art/static/js/7.2d4a01ab.chunk.js",
@@ -143,6 +143,6 @@
     "static/js/runtime-main.5cd0b4f6.js",
     "static/js/7.2d4a01ab.chunk.js",
     "static/css/main.5cc8d3f2.chunk.css",
-    "static/js/main.68d2002b.chunk.js"
+    "static/js/main.2322c59f.chunk.js"
   ]
 }
