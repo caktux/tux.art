@@ -1,0 +1,1 @@
+{"version":3,"sources":["css/Minty.tsx"],"names":["Minty"],"mappings":"4GAAA,+BAMeA,UAFS,kBAAM","file":"static/js/39.992848a9.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/minty/bootstrap.min.css'\n\nconst Minty: React.FC = () => <></>\n\nexport default Minty\n"],"sourceRoot":""}

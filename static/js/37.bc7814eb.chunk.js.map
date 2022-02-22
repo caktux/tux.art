@@ -1,1 +1,0 @@
-{"version":3,"sources":["css/Litera.tsx"],"names":["Litera"],"mappings":"4GAAA,+BAMeA,UAFU,kBAAM","file":"static/js/37.bc7814eb.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/litera/bootstrap.min.css'\n\nconst Litera: React.FC = () => <></>\n\nexport default Litera\n"],"sourceRoot":""}

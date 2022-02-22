@@ -1,0 +1,1 @@
+{"version":3,"sources":["css/Quartz.tsx"],"names":["Quartz"],"mappings":"4GAAA,+BAMeA,UAFU,kBAAM","file":"static/js/41.c9886b4f.chunk.js","sourcesContent":["import React from 'react'\n\nimport 'bootswatch/dist/quartz/bootstrap.min.css'\n\nconst Quartz: React.FC = () => <></>\n\nexport default Quartz\n"],"sourceRoot":""}
