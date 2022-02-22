@@ -170,12 +170,17 @@ export default function FeaturedItem(props: any) {
                 </Link>
               </Card.Title> :
               <Placeholder as={Card.Title} animation='wave'>
-                <Placeholder xs={6} />
+                <Placeholder xs={7} />
               </Placeholder> }
-            { token.props.title && token.props.description &&
+            { token.props.title && token.props.description ?
               <Card.Text className='text-muted'>
                 { token.props.description }
-              </Card.Text> }
+              </Card.Text> :
+              <Placeholder as={Card.Text} animation='wave'>
+                <Placeholder xs={9} bg='light' />
+                <div><Placeholder xs={6} bg='light' /></div>
+                <Placeholder xs={4} bg='light' />
+              </Placeholder> }
               <Row xs={1}>
                 <Col xs={6}>
                   { loaded ?
@@ -227,9 +232,13 @@ export default function FeaturedItem(props: any) {
                       }
                     </> :
                     <>
-                      <Placeholder xs={5} bg='light' />
+                      <Placeholder animation='wave'>
+                        <Placeholder xs={3} bg='light' />
+                      </Placeholder>
                       <p className='lead'>
-                        <Placeholder xs={2} bg='light' />
+                        <Placeholder animation='wave'>
+                          <Placeholder xs={2} bg='light' />
+                        </Placeholder>
                       </p>
                     </>
                   }
@@ -240,10 +249,10 @@ export default function FeaturedItem(props: any) {
                     { token.countdown && token.countdown.remaining === 0 ? 'Auction ended' : '' }
                   </span>
                   <p className='lead'>
-                  { token.countdown && token.countdown.remaining > 0 ?
-                    `${token.countdown.days ? token.countdown.days + 'd' : ''}
-                     ${token.countdown.hours}h ${token.countdown.minutes}m ${token.countdown.seconds}s` : ''
-                  }
+                    { token.countdown && token.countdown.remaining > 0 ?
+                      `${token.countdown.days ? token.countdown.days + 'd' : ''}
+                       ${token.countdown.hours}h ${token.countdown.minutes}m ${token.countdown.seconds}s` : ''
+                    }
                   </p>
                 </Col>
               </Row>
@@ -259,7 +268,8 @@ export default function FeaturedItem(props: any) {
                   }
                 </Card.Footer> :
                 <Placeholder as={Card.Footer} animation='wave'>
-                  <Placeholder xs={1} bg='light' />
+                  <Placeholder xs={1} bg='dark' className='px-5' />
+                  <Placeholder xs={1} bg='dark' className='px-3' />
                 </Placeholder>
               }
             </Card.Body>

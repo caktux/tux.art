@@ -136,8 +136,8 @@ export async function fetchAndParse(ipfs: any, ipfsHost: string, cid: string, us
 
   const paths = [
     `${ipfsHost}${cid}`,
+    `https://dweb.link${cid}`,
     `https://cf-ipfs.com${cid}`,
-    `https://ipfs.io${cid}`,
     `https://infura-ipfs.io${cid}`,
     `https://gateway.pinata.cloud${cid}`,
     `https://thingproxy.freeboard.io/fetch/https://ipfsgateway.makersplace.com${cid}`,

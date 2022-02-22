@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './index.css'
+
 const Darkly = React.lazy(() => import('./css/Darkly'))
 const Lux = React.lazy(() => import('./css/Lux'))
 const Journal = React.lazy(() => import('./css/Journal'))
@@ -18,7 +20,7 @@ const theme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'd
 
 const ThemeSelector: React.FC = ({ children }) => (
   <>
-    <React.Suspense fallback={null}>
+    <React.Suspense fallback={<div className='initSpinner' />}>
       {theme === 'darkly' && <Darkly />}
       {theme === 'lux' && <Lux />}
       {theme === 'journal' && <Journal />}

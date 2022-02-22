@@ -23,8 +23,8 @@ export function LazyImg (props: any) {
 
   const hosts = [
     ipfsHost,
+    `https://dweb.link`,
     `https://cf-ipfs.com`,
-    `https://ipfs.io`,
     `https://infura-ipfs.io`,
     `https://gateway.pinata.cloud`,
     `https://ipfsgateway.makersplace.com`,

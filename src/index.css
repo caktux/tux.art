@@ -1,13 +1,61 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body, button, input, select, textarea,
+.form-control, .form-control::file-selector-button {
+  background-color: rgb(34, 34, 34);
+  color: rgb(34, 34, 34);
+  border: none;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.form-control::placeholder {
+  color: rgb(34, 34, 34);
+}
+
+::-webkit-resizer {
+  display: none;
+}
+
+a {
+  color: rgb(34, 34, 34);
+}
+
+@-webkit-keyframes initSpinner {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes initSpinner {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .initSpinner {
+    -webkit-animation-duration: 1.5s;
+    animation-duration: 1.5s;
+  }
+}
+
+.initSpinner {
+  width: 2rem;
+  height: 2rem;
+  margin: 5rem auto;
+  vertical-align: -0.125em;
+  background-color: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  -webkit-animation: 0.75s linear infinite initSpinner;
+  animation: 0.75s linear infinite initSpinner;
 }

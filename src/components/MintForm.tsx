@@ -460,55 +460,57 @@ export const MintForm = (props: any) => {
           </Form>
         </>
       }
-      { success &&
-        <Alert variant='success' onClose={() => setSuccess('')} dismissible>
-          Successfully minted{' '}
-          <Link to={`/nft/${ props.address ? props.address : TUX }/${success}`}>
-            token #{success}
-          </Link>!
-        </Alert>
-      }
-      { txResult &&
-        <Alert variant='primary' onClose={() => setTxResult('')} dismissible>
-          <Alert.Heading>Transaction sent!</Alert.Heading>
-          <p>
-            View on Etherscan:{' '}
-            <Alert.Link href={`https://etherscan.io/tx/${txResult}`} as={'a'} target='blank'>
-              {txResult}
-            </Alert.Link>
-          </p>
-        </Alert>
-      }
-      { metadataHash &&
-        <Alert variant='primary'>
-          <p>
-            Metadata IPFS hash: <code className='imageHash'>{metadataHash}</code>
-          </p>
-          <a target='_blank' rel='noreferrer' href={'ipfs://' + metadataHash}>
-            {'ipfs://' + metadataHash}
-          </a>
-        </Alert>
-      }
-      { props.imageHash &&
-        <Alert variant='primary'>
-          <p>
-            Preview image IPFS hash: <code className='imageHash'>{props.imageHash}</code>
-          </p>
-          <a target='_blank' rel='noreferrer' href={'ipfs://' + props.imageHash}>
-            {'ipfs://' + props.imageHash}
-          </a>
-        </Alert>
-      }
-      { props.mediaHash &&
-        <Alert variant='primary'>
-          <p>
-            Media IPFS hash: <code className='imageHash'>{props.mediaHash}</code>
-          </p>
-          <a target='_blank' rel='noreferrer' href={'ipfs://' + props.mediaHash}>
-            {'ipfs://' + props.mediaHash}
-          </a>
-        </Alert>
-      }
+      <div className='mt-5'>
+        { success &&
+          <Alert variant='success' onClose={() => setSuccess('')} dismissible>
+            Successfully minted{' '}
+            <Link to={`/nft/${ props.address ? props.address : TUX }/${success}`}>
+              token #{success}
+            </Link>!
+          </Alert>
+        }
+        { txResult &&
+          <Alert variant='primary' onClose={() => setTxResult('')} dismissible>
+            <Alert.Heading>Transaction sent!</Alert.Heading>
+            <p>
+              View on Etherscan:{' '}
+              <Alert.Link href={`https://etherscan.io/tx/${txResult}`} as={'a'} target='blank'>
+                {txResult}
+              </Alert.Link>
+            </p>
+          </Alert>
+        }
+        { metadataHash &&
+          <Alert variant='primary'>
+            <p>
+              Metadata IPFS hash: <code className='imageHash'>{metadataHash}</code>
+            </p>
+            <a target='_blank' rel='noreferrer' href={'ipfs://' + metadataHash}>
+              {'ipfs://' + metadataHash}
+            </a>
+          </Alert>
+        }
+        { props.imageHash &&
+          <Alert variant='primary'>
+            <p>
+              Preview image IPFS hash: <code className='imageHash'>{props.imageHash}</code>
+            </p>
+            <a target='_blank' rel='noreferrer' href={'ipfs://' + props.imageHash}>
+              {'ipfs://' + props.imageHash}
+            </a>
+          </Alert>
+        }
+        { props.mediaHash &&
+          <Alert variant='primary'>
+            <p>
+              Media IPFS hash: <code className='imageHash'>{props.mediaHash}</code>
+            </p>
+            <a target='_blank' rel='noreferrer' href={'ipfs://' + props.mediaHash}>
+              {'ipfs://' + props.mediaHash}
+            </a>
+          </Alert>
+        }
+      </div>
     </>
   )
 }
