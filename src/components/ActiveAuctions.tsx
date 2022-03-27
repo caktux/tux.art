@@ -74,7 +74,7 @@ export const ActiveAuctions = (props: any) => {
       const nextFeaturedTime = await getNextFeaturedTime(provider)
       if (nextFeaturedTime * 1000 <= Date.now() - 86400) {
         [totalRunning, auctionsRunning, timedOut] = await getActiveAuctionsGraph(1, 0, true)
-        if (!totalRunning && !auctionsRunning && !timedOut)
+        if (!totalRunning && auctionsRunning.length === 0 && !timedOut)
           skipFirst = true
       }
 
